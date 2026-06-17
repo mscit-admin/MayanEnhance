@@ -1,0 +1,278 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Rasmus Kierudsen <tebrasso@gmail.com>, 2022
+# René Rovsing Bach <reroba@outlook.com>, 2022
+# Mads L. Nielsen <sirlundgaard@gmail.com>, 2022
+# Allan Møller <it@brandts.dk>, 2022
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-08-21 06:40+0000\n"
+"PO-Revision-Date: 2022-07-27 05:36+0000\n"
+"Last-Translator: Allan Møller <it@brandts.dk>, 2022\n"
+"Language-Team: Danish (https://www.transifex.com/rosarior/teams/13584/da/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: da\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: apps.py:39 events.py:5 permissions.py:5
+msgid "Messaging"
+msgstr ""
+
+#: apps.py:61
+msgid "None"
+msgstr "Ingen"
+
+#: apps.py:67
+msgid "Sender"
+msgstr ""
+
+#: events.py:8
+msgid "Message created"
+msgstr ""
+
+#: events.py:11
+msgid "Message edited"
+msgstr ""
+
+#: forms.py:26 models.py:38 workflow_actions.py:55
+msgid "Body"
+msgstr ""
+
+#: links.py:49 views.py:38
+msgid "Create message"
+msgstr ""
+
+#: links.py:52 links.py:58
+msgid "Delete"
+msgstr "Slet"
+
+#: links.py:67 links.py:78
+msgid "Mark as read"
+msgstr ""
+
+#: links.py:73 links.py:82
+msgid "Mark as unread"
+msgstr ""
+
+#: links.py:86
+msgid "Mark all as read"
+msgstr ""
+
+#: models.py:30
+msgid "User"
+msgstr "Bruger"
+
+#: models.py:33
+msgid "Short description of this message."
+msgstr ""
+
+#: models.py:34 workflow_actions.py:38
+msgid "Subject"
+msgstr ""
+
+#: models.py:37
+msgid "The actual content of the message."
+msgstr ""
+
+#: models.py:42
+msgid "This field determines if the message has been read or not."
+msgstr ""
+
+#: models.py:43
+msgid "Read"
+msgstr ""
+
+#: models.py:47
+msgid "Date and time of the message creation."
+msgstr ""
+
+#: models.py:48
+msgid "Creation date and time"
+msgstr ""
+
+#: models.py:53
+msgid "Message"
+msgstr ""
+
+#: models.py:54 views.py:127
+msgid "Messages"
+msgstr ""
+
+#: models.py:70
+msgid "Label"
+msgstr "Etiket"
+
+#: permissions.py:8
+msgid "Create messages"
+msgstr ""
+
+#: permissions.py:11
+msgid "Delete messages"
+msgstr ""
+
+#: permissions.py:14
+msgid "Edit messages"
+msgstr ""
+
+#: permissions.py:17
+msgid "View messages"
+msgstr ""
+
+#: serializers.py:19
+msgid "Primary key of the recipient user of this message."
+msgstr ""
+
+#: views.py:49
+#, python-format
+msgid "Error deleting message \"%(instance)s\"; %(exception)s"
+msgstr ""
+
+#: views.py:53
+#, python-format
+msgid "Message \"%(object)s\" deleted successfully."
+msgstr ""
+
+#: views.py:54
+#, python-format
+msgid "%(count)d message deleted successfully."
+msgstr ""
+
+#: views.py:55
+#, python-format
+msgid "%(count)d messages deleted successfully."
+msgstr ""
+
+#: views.py:56
+#, python-format
+msgid "Delete message: %(object)s."
+msgstr ""
+
+#: views.py:57
+#, python-format
+msgid "Delete the %(count)d selected message."
+msgstr ""
+
+#: views.py:58
+#, python-format
+msgid "Delete the %(count)d selected messages."
+msgstr ""
+
+#: views.py:99
+#, python-format
+msgid "Details of message: %s"
+msgstr ""
+
+#: views.py:123
+msgid "Here you will find text messages from other users or from the system."
+msgstr ""
+
+#: views.py:126
+msgid "There are no messages"
+msgstr ""
+
+#: views.py:136
+#, python-format
+msgid "Error marking message \"%(instance)s\" as read; %(exception)s"
+msgstr ""
+
+#: views.py:142
+#, python-format
+msgid "Message \"%(object)s\" marked as read successfully."
+msgstr ""
+
+#: views.py:145
+#, python-format
+msgid "%(count)d message marked as read successfully."
+msgstr ""
+
+#: views.py:148
+#, python-format
+msgid "%(count)d messages marked as read successfully."
+msgstr ""
+
+#: views.py:150
+#, python-format
+msgid "Mark the message \"%(object)s\" as read."
+msgstr ""
+
+#: views.py:151
+#, python-format
+msgid "Mark the %(count)d selected message as read."
+msgstr ""
+
+#: views.py:152
+#, python-format
+msgid "Mark the %(count)d selected messages as read."
+msgstr ""
+
+#: views.py:181
+msgid "Mark all message as read?"
+msgstr ""
+
+#: views.py:198
+msgid "All messages marked as read."
+msgstr ""
+
+#: views.py:205
+#, python-format
+msgid "Error marking message \"%(instance)s\" as unread; %(exception)s"
+msgstr ""
+
+#: views.py:211
+#, python-format
+msgid "Message \"%(object)s\" marked as unread successfully."
+msgstr ""
+
+#: views.py:214
+#, python-format
+msgid "%(count)d message marked as unread successfully."
+msgstr ""
+
+#: views.py:217
+#, python-format
+msgid "%(count)d messages marked as unread successfully."
+msgstr ""
+
+#: views.py:219
+#, python-format
+msgid "Mark the message \"%(object)s\" as unread."
+msgstr ""
+
+#: views.py:220
+#, python-format
+msgid "Mark the %(count)d selected message as unread."
+msgstr ""
+
+#: views.py:221
+#, python-format
+msgid "Mark the %(count)d selected messages as unread."
+msgstr ""
+
+#: workflow_actions.py:19
+msgid "Username list"
+msgstr ""
+
+#: workflow_actions.py:26
+msgid "Comma separated list of username that will receive the message."
+msgstr ""
+
+#: workflow_actions.py:45
+msgid "Topic of the message to be sent."
+msgstr ""
+
+#: workflow_actions.py:62
+msgid "The actual text to send."
+msgstr ""
+
+#: workflow_actions.py:73
+msgid "Send user message"
+msgstr ""
