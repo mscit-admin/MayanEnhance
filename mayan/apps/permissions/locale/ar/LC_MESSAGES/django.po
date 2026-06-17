@@ -1,0 +1,241 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Translators:
+# Roberto Rosario, 2022
+# Yaman Sanobar <yman.snober@gmail.com>, 2022
+# Marwan Rahhal <Marwanr@sssit.net>, 2022
+# Ayoub BENSAKHRIA <bensakhria.ayoub@gmail.com>, 2022
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Mayan EDMS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-08-21 06:40+0000\n"
+"PO-Revision-Date: 2022-07-27 05:37+0000\n"
+"Last-Translator: Ayoub BENSAKHRIA <bensakhria.ayoub@gmail.com>, 2022\n"
+"Language-Team: Arabic (https://www.transifex.com/rosarior/teams/13584/ar/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ar\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: apps.py:44 events.py:6 models.py:37 models.py:157 permissions.py:5
+msgid "Permissions"
+msgstr "الصلاحيات"
+
+#: apps.py:106 models.py:75
+msgid "Group count"
+msgstr "عدد المجموعة"
+
+#: classes.py:73
+msgid "Insufficient permissions."
+msgstr "صلاحيات غير كافية."
+
+#: dashboard_widgets.py:13
+msgid "Total roles"
+msgstr "إجمالي الأدوار"
+
+#: events.py:10
+msgid "Role created"
+msgstr "إنشاء الدور"
+
+#: events.py:13
+msgid "Role edited"
+msgstr "تعديل الدور"
+
+#: links.py:20 links.py:46 models.py:48 views.py:112
+msgid "Roles"
+msgstr "أدوار"
+
+#: links.py:28 views.py:58
+msgid "Create new role"
+msgstr "أنشئ دورًا جديدًا"
+
+#: links.py:33 links.py:36
+msgid "Delete"
+msgstr "حذف"
+
+#: links.py:41
+msgid "Edit"
+msgstr "تعديل"
+
+#: links.py:50 models.py:40
+msgid "Groups"
+msgstr "المجموعات"
+
+#: links.py:56
+msgid "Role permissions"
+msgstr "أذونات الدور"
+
+#: models.py:32
+msgid "A short text describing the role."
+msgstr "وصف مختصر"
+
+#: models.py:33 search.py:14
+msgid "Label"
+msgstr "العنوان"
+
+#: models.py:47
+msgid "Role"
+msgstr "الدور"
+
+#: models.py:83
+msgid "Permission count"
+msgstr "عدد الأذونات"
+
+#: models.py:148
+msgid "Namespace"
+msgstr "مساحة الاسم"
+
+#: models.py:149
+msgid "Name"
+msgstr "اسم"
+
+#: models.py:156
+msgid "Permission"
+msgstr "الإذن"
+
+#: permissions.py:8
+msgid "Create roles"
+msgstr "إنشاء أدوار"
+
+#: permissions.py:11
+msgid "Delete roles"
+msgstr "حذف الأدوار"
+
+#: permissions.py:14
+msgid "Edit roles"
+msgstr "تحرير الأدوار"
+
+#: permissions.py:17
+msgid "View roles"
+msgstr "عرض الأدوار"
+
+#: search.py:18
+msgid "Group name"
+msgstr "إسم المجموعة"
+
+#: serializers.py:30
+msgid "Primary key of the group to add to the role."
+msgstr ""
+
+#: serializers.py:38
+msgid "Primary key of the group to remove from the role."
+msgstr ""
+
+#: serializers.py:46
+msgid "Primary key of the permission to add to the role."
+msgstr ""
+
+#: serializers.py:53
+msgid "Primary key of the permission to remove from the role."
+msgstr ""
+
+#: views.py:35
+msgid "Available roles"
+msgstr "الأدوار المتاحة"
+
+#: views.py:36
+msgid "Group roles"
+msgstr "أدوار المجموعة"
+
+#: views.py:46
+#, python-format
+msgid "Roles of group: %s"
+msgstr "أدوار المجموعة: %s"
+
+#: views.py:65
+#, python-format
+msgid "Error deleting role \"%(instance)s\"; %(exception)s"
+msgstr ""
+
+#: views.py:70
+#, python-format
+msgid "Role \"%(object)s\" deleted successfully."
+msgstr ""
+
+#: views.py:71
+#, python-format
+msgid "%(count)d role deleted successfully."
+msgstr ""
+
+#: views.py:72
+#, python-format
+msgid "%(count)d roles deleted successfully."
+msgstr ""
+
+#: views.py:73
+#, python-format
+msgid "Delete role: %(object)s."
+msgstr ""
+
+#: views.py:74
+#, python-format
+msgid "Delete the %(count)d selected role."
+msgstr ""
+
+#: views.py:75
+#, python-format
+msgid "Delete the %(count)d selected roles."
+msgstr ""
+
+#: views.py:104
+msgid ""
+"Roles are authorization units. They contain user groups which inherit the "
+"role permissions for the entire system. Roles can also part of access "
+"controls lists. Access controls list are permissions granted to a role for "
+"specific objects which its group members inherit."
+msgstr ""
+"الأدوار هي وحدات تفويض. تحتوي على مجموعات مستخدمين ترث أذونات الدور للنظام "
+"بأكمله. يمكن أيضًا أن تكون الأدوار جزءًا من قوائم ضوابط الوصول. قائمة عناصر "
+"التحكم في الوصول هي أذونات تُمنح لدور لمتغيرات معينة يرثها أعضاء المجموعة."
+
+#: views.py:111
+msgid "There are no roles"
+msgstr "لا توجد أدوار"
+
+#: views.py:124
+msgid "Available groups"
+msgstr "المجموعات المتاحة"
+
+#: views.py:125
+msgid "Role groups"
+msgstr "أدوار المجموعات"
+
+#: views.py:135
+#, python-format
+msgid "Groups of role: %s"
+msgstr "أدوار المجموعات: %s"
+
+#: views.py:137
+msgid ""
+"Add groups to be part of a role. They will inherit the role's permissions "
+"and access controls."
+msgstr "أضف مجموعات لتكون جزءًا من دور. سيرثون أذونات الدور وضوابط الوصول."
+
+#: views.py:150
+msgid "Available permissions"
+msgstr "الصلاحيات المتاحة"
+
+#: views.py:151
+msgid "Granted permissions"
+msgstr "الصلاحيات الممنوحة"
+
+#: views.py:186
+msgid ""
+"Permissions granted here will apply to the entire system and all objects."
+msgstr "سيتم تطبيق الأذونات الممنوحة هنا على النظام بأكمله وجميع المتغيرات"
+
+#: views.py:189
+#, python-format
+msgid "Permissions for role: %s"
+msgstr "أذونات الدور: %s"
+
+#: views.py:209
+#, python-format
+msgid "Details of permission: %s"
+msgstr ""
