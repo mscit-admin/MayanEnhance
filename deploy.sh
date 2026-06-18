@@ -1,11 +1,11 @@
-#!/usr/bin/env bash
-set -Eeuo pipefail
+#!/bin/sh
+set -eu
 
 # Deploy Mayan EDMS on Ubuntu using Docker Compose.
 # Default public port is 4444; override with: MAYAN_HTTP_PORT=8080 ./deploy.sh
 
 APP_PORT="${MAYAN_HTTP_PORT:-4444}"
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
 COMPOSE_DIR="${SCRIPT_DIR}/docker"
 COMPOSE_FILE="${COMPOSE_DIR}/docker-compose.yml"
 ENV_FILE="${COMPOSE_DIR}/.env"
@@ -20,11 +20,17 @@ fail() {
   exit 1
 }
 
-if [[ ! "${APP_PORT}" =~ ^[0-9]+$ ]] || (( APP_PORT < 1 || APP_PORT > 65535 )); then
+case "${APP_PORT}" in
+  ""|*[!0-9]*)
+    fail "MAYAN_HTTP_PORT must be a valid TCP port number. Got: ${APP_PORT}"
+    ;;
+esac
+
+if [ "${APP_PORT}" -lt 1 ] || [ "${APP_PORT}" -gt 65535 ]; then
   fail "MAYAN_HTTP_PORT must be a valid TCP port number. Got: ${APP_PORT}"
 fi
 
-[[ -f "${COMPOSE_FILE}" ]] || fail "Cannot find ${COMPOSE_FILE}"
+[ -f "${COMPOSE_FILE}" ] || fail "Cannot find ${COMPOSE_FILE}"
 
 log "Checking Docker"
 if ! command -v docker >/dev/null 2>&1; then
@@ -36,7 +42,7 @@ if ! docker compose version >/dev/null 2>&1; then
 fi
 
 log "Preparing ${ENV_FILE}"
-if [[ ! -f "${ENV_FILE}" ]]; then
+if [ ! -f "${ENV_FILE}" ]; then
   cat > "${ENV_FILE}" <<'ENVEOF'
 MAYAN_DOCKER_IMAGE_NAME=mayanedms/mayanedms
 MAYAN_DOCKER_IMAGE_TAG=s4.3
@@ -58,7 +64,7 @@ else
 fi
 
 log "Configuring Mayan HTTP port ${APP_PORT}"
-if [[ ! -f "${BACKUP_FILE}" ]]; then
+if [ ! -f "${BACKUP_FILE}" ]; then
   cp "${COMPOSE_FILE}" "${BACKUP_FILE}"
 fi
 
