@@ -1,0 +1,2431 @@
+{% load i18n %}
+
+{% load appearance_tags %}
+{% load common_tags %}
+{% load navigation_tags %}
+
+{% spaceless %}
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+    <head>
+        {% include 'appearance/partials/meta.html' %}
+        <title>
+            {% block base_title %}
+                {% block title %}{% endblock %} :: {% block project_name %}EDMS{% endblock %}
+            {% endblock base_title %}
+        </title>
+
+        <style id="style-javascript"></style>
+        {% appearance_app_templates template_name='head' %}
+
+        {% block stylesheets %}{% endblock %}
+
+        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+        <style id="erpnext-preview-overrides">
+            :root {
+                --erp-font: "Cairo", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+                --erp-bg: #f8f8f8;
+                --erp-surface: #ffffff;
+                --erp-muted: #f3f5f7;
+                --erp-border: #dfe3e8;
+                --erp-text: #1f272e;
+                --erp-subtle: #687178;
+                --erp-blue: #2490ef;
+                --erp-blue-dark: #1677c8;
+                --erp-sidebar: #f7f9fb;
+                --erp-sidebar-active: #e9eef5;
+                --erp-radius: 6px;
+                --erp-shadow: 0 1px 2px rgba(31, 39, 46, 0.08);
+                --erp-sidebar-width: 240px;
+                --erp-topbar-height: 56px;
+            }
+
+            html, body {
+                background: var(--erp-bg) !important;
+                color: var(--erp-text) !important;
+                font-family: var(--erp-font) !important;
+                font-size: 13px !important;
+            }
+
+            html *,
+            html *::before,
+            html *::after {
+                font-family: var(--erp-font) !important;
+                letter-spacing: 0 !important;
+            }
+
+            .fa,
+            .fa::before,
+            .fas,
+            .fas::before,
+            .far,
+            .far::before,
+            .fab,
+            .fab::before,
+            .fal,
+            .fal::before,
+            .fad,
+            .fad::before,
+            .svg-inline--fa,
+            .svg-inline--fa *,
+            [class^="icon-"],
+            [class^="icon-"]::before,
+            [class*=" icon-"],
+            [class*=" icon-"]::before {
+                font-family: "Font Awesome 5 Free", "Font Awesome 5 Brands" !important;
+            }
+
+            #menu-topbar .navbar,
+            #menu-topbar .navbar-default,
+            .navbar.navbar-default.navbar-fixed-top {
+                background: var(--erp-surface) !important;
+                border: 0 !important;
+                border-bottom: 1px solid var(--erp-border) !important;
+                box-shadow: none !important;
+                min-height: var(--erp-topbar-height) !important;
+            }
+
+            #menu-topbar .navbar-brand,
+            #menu-topbar .navbar-default .navbar-brand,
+            #menu-topbar .navbar .navbar-nav > li > a {
+                color: var(--erp-text) !important;
+                font-family: var(--erp-font) !important;
+                text-shadow: none !important;
+            }
+
+            #menu-topbar .navbar-brand {
+                align-items: center !important;
+                background: var(--erp-surface) !important;
+                border-right: 1px solid var(--erp-border) !important;
+                display: flex !important;
+                font-size: 15px !important;
+                font-weight: 650 !important;
+                gap: 10px !important;
+                height: var(--erp-topbar-height) !important;
+                justify-content: flex-start !important;
+                line-height: 1.2 !important;
+                margin-left: 0 !important;
+                overflow: hidden !important;
+                padding: 8px 18px !important;
+                white-space: nowrap !important;
+                width: var(--erp-sidebar-width) !important;
+            }
+
+            .erp-brand-title {
+                display: block;
+                flex: 1 1 auto;
+                min-width: 0;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            #menu-topbar .navbar .navbar-nav > li > a {
+                border-radius: var(--erp-radius) !important;
+                margin: 10px 2px !important;
+                padding: 8px 10px !important;
+            }
+
+            #menu-topbar .navbar .navbar-nav > li > a:hover,
+            #menu-topbar .navbar .navbar-nav > .open > a {
+                background: var(--erp-muted) !important;
+                color: var(--erp-text) !important;
+            }
+
+            #search-navbar-form .form-control,
+            #search-navbar-form .btn {
+                border-radius: var(--erp-radius) !important;
+                box-shadow: none !important;
+                height: 36px !important;
+            }
+
+            #search-navbar-form .btn-primary,
+            #search-navbar-form .search-anchor-search-advanced {
+                background: var(--erp-surface) !important;
+                border-color: var(--erp-border) !important;
+                color: var(--erp-text) !important;
+            }
+
+            #search-navbar-form .btn-primary:hover,
+            #search-navbar-form .search-anchor-search-advanced:hover {
+                background: var(--erp-muted) !important;
+            }
+
+            #menu-main {
+                background: var(--erp-sidebar) !important;
+                border-right: 1px solid var(--erp-border) !important;
+                box-shadow: none !important;
+                color: var(--erp-subtle) !important;
+                top: var(--erp-topbar-height) !important;
+                width: var(--erp-sidebar-width) !important;
+            }
+
+            #accordion-sidebar,
+            #accordion-sidebar .panel,
+            #accordion-sidebar .panel-heading,
+            #accordion-sidebar .panel-body {
+                background: transparent !important;
+                border: 0 !important;
+                box-shadow: none !important;
+            }
+
+            #accordion-sidebar a,
+            #accordion-sidebar .panel-title a,
+            #accordion-sidebar .panel-body a {
+                align-items: center !important;
+                border-radius: var(--erp-radius) !important;
+                color: var(--erp-subtle) !important;
+                display: flex !important;
+                gap: 10px !important;
+                font-size: 13px !important;
+                font-weight: 500 !important;
+                min-height: 34px !important;
+                text-align: left !important;
+                text-shadow: none !important;
+            }
+
+            #accordion-sidebar .panel-title a .pull-left,
+            #accordion-sidebar .panel-body a {
+                align-items: center !important;
+                display: flex !important;
+                float: none !important;
+                gap: 10px !important;
+                min-width: 0 !important;
+            }
+
+            #accordion-sidebar .erp-icon,
+            #accordion-sidebar .fa,
+            #accordion-sidebar .fas,
+            #accordion-sidebar .far,
+            #accordion-sidebar .svg-inline--fa {
+                flex: 0 0 16px !important;
+                margin: 0 !important;
+            }
+
+            #accordion-sidebar .panel-heading:hover,
+            #accordion-sidebar .panel-heading:hover a,
+            #accordion-sidebar a:hover,
+            #accordion-sidebar a:focus,
+            #accordion-sidebar a[aria-expanded="true"],
+            #accordion-sidebar > .panel > div > .panel-body > ul > li.active,
+            #accordion-sidebar > .panel > div > .panel-body > ul > li:hover {
+                background: var(--erp-sidebar-active) !important;
+                color: var(--erp-text) !important;
+            }
+
+            #appearance-main-viewport {
+                background: var(--erp-bg) !important;
+                margin-left: var(--erp-sidebar-width) !important;
+                margin-top: var(--erp-topbar-height) !important;
+                min-height: calc(100vh - var(--erp-topbar-height)) !important;
+                padding: 24px !important;
+            }
+
+            #viewport,
+            #ajax-content,
+            #ajax-header {
+                background: transparent !important;
+            }
+
+            #content-title,
+            #appearance-title-text {
+                color: var(--erp-text) !important;
+                font-family: var(--erp-font) !important;
+                font-weight: 650 !important;
+                letter-spacing: 0 !important;
+                text-shadow: none !important;
+            }
+
+            button,
+            input,
+            select,
+            textarea,
+            .btn,
+            .form-control,
+            .dropdown-menu,
+            .panel,
+            .navbar,
+            .table,
+            .select2-container,
+            .select2-container *,
+            .tooltip,
+            .popover,
+            #ajax-content,
+            #ajax-content *,
+            #ajax-header,
+            #ajax-header *,
+            #menu-main,
+            #menu-main *,
+            #menu-topbar,
+            #menu-topbar * {
+                font-family: var(--erp-font) !important;
+            }
+
+            .well,
+            .panel,
+            .toolbar,
+            .modal-content {
+                background: var(--erp-surface) !important;
+                border: 1px solid var(--erp-border) !important;
+                border-radius: var(--erp-radius) !important;
+                box-shadow: var(--erp-shadow) !important;
+            }
+
+            .panel-heading,
+            .panel-footer {
+                background: var(--erp-muted) !important;
+                border-color: var(--erp-border) !important;
+                color: var(--erp-text) !important;
+            }
+
+            .btn,
+            .form-control,
+            .dropdown-menu {
+                border-radius: var(--erp-radius) !important;
+                box-shadow: none !important;
+            }
+
+            .btn-primary {
+                background: var(--erp-blue) !important;
+                border-color: var(--erp-blue) !important;
+                color: #ffffff !important;
+            }
+
+            .btn-primary:hover,
+            .btn-primary:focus {
+                background: var(--erp-blue-dark) !important;
+                border-color: var(--erp-blue-dark) !important;
+            }
+
+            .btn-default,
+            .btn-outline {
+                background: var(--erp-surface) !important;
+                border-color: var(--erp-border) !important;
+                color: var(--erp-text) !important;
+            }
+
+            .dropdown-menu {
+                min-width: 220px !important;
+                padding: 6px !important;
+            }
+
+            .dropdown-menu > li > a,
+            .dropdown-menu > li > form > button,
+            .dropdown-menu .navigation-btn-dropdown,
+            .dropdown-menu .btn-multi-item-action {
+                align-items: center !important;
+                background: transparent !important;
+                border: 0 !important;
+                border-radius: 7px !important;
+                color: var(--erp-subtle) !important;
+                display: flex !important;
+                float: none !important;
+                font-size: 13px !important;
+                font-weight: 500 !important;
+                gap: 10px !important;
+                justify-content: flex-start !important;
+                line-height: 1.35 !important;
+                min-height: 32px !important;
+                padding: 7px 10px !important;
+                text-align: start !important;
+                text-shadow: none !important;
+                white-space: normal !important;
+                width: 100% !important;
+            }
+
+            .dropdown-menu > li > a:hover,
+            .dropdown-menu > li > a:focus,
+            .dropdown-menu > li > form > button:hover,
+            .dropdown-menu > li > form > button:focus,
+            .dropdown-menu .navigation-btn-dropdown:hover,
+            .dropdown-menu .navigation-btn-dropdown:focus,
+            .dropdown-menu .btn-multi-item-action:hover,
+            .dropdown-menu .btn-multi-item-action:focus {
+                background: var(--erp-sidebar-active) !important;
+                color: var(--erp-text) !important;
+                text-decoration: none !important;
+            }
+
+            .dropdown-menu > li > a .erp-icon,
+            .dropdown-menu > li > a .fa,
+            .dropdown-menu > li > a .fas,
+            .dropdown-menu > li > a .far,
+            .dropdown-menu > li > a .svg-inline--fa,
+            .dropdown-menu > li > form > button .erp-icon,
+            .dropdown-menu > li > form > button .fa,
+            .dropdown-menu > li > form > button .fas,
+            .dropdown-menu > li > form > button .far,
+            .dropdown-menu > li > form > button .svg-inline--fa,
+            .dropdown-menu .navigation-btn-dropdown .erp-icon,
+            .dropdown-menu .navigation-btn-dropdown .fa,
+            .dropdown-menu .navigation-btn-dropdown .fas,
+            .dropdown-menu .navigation-btn-dropdown .far,
+            .dropdown-menu .navigation-btn-dropdown .svg-inline--fa,
+            .dropdown-menu .btn-multi-item-action .erp-icon,
+            .dropdown-menu .btn-multi-item-action .fa,
+            .dropdown-menu .btn-multi-item-action .fas,
+            .dropdown-menu .btn-multi-item-action .far,
+            .dropdown-menu .btn-multi-item-action .svg-inline--fa {
+                display: inline-flex !important;
+                flex: 0 0 16px !important;
+                height: 16px !important;
+                justify-content: center !important;
+                margin: 0 !important;
+                text-align: center !important;
+                width: 16px !important;
+            }
+
+            #ajax-content .well.center-block,
+            #appearance-main-viewport .well.center-block {
+                background: var(--erp-surface) !important;
+                border: 1px solid var(--erp-border) !important;
+                border-radius: 8px !important;
+                box-shadow: var(--erp-shadow) !important;
+                padding: 14px !important;
+            }
+
+            #ajax-content .well.center-block .row,
+            #appearance-main-viewport .well.center-block .row {
+                align-items: stretch;
+                display: grid;
+                gap: 12px;
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                margin: 0 !important;
+            }
+
+            #ajax-content .well.center-block .row > [class*="col-"],
+            #appearance-main-viewport .well.center-block .row > [class*="col-"] {
+                float: none !important;
+                padding: 0 !important;
+                width: auto !important;
+            }
+
+            #ajax-content .well.center-block .btn.btn-primary.btn-lg.btn-block,
+            #appearance-main-viewport .well.center-block .btn.btn-primary.btn-lg.btn-block {
+                align-items: center;
+                background: var(--erp-surface) !important;
+                border: 1px solid var(--erp-border) !important;
+                border-radius: 8px !important;
+                box-shadow: none !important;
+                color: var(--erp-text) !important;
+                display: flex !important;
+                flex-direction: row;
+                font-size: 14px !important;
+                font-weight: 600 !important;
+                gap: 12px;
+                justify-content: flex-start;
+                line-height: 1.35 !important;
+                margin: 0 !important;
+                min-height: 82px;
+                padding: 16px !important;
+                text-align: start !important;
+                text-shadow: none !important;
+                white-space: normal;
+            }
+
+            #ajax-content .well.center-block .btn.btn-primary.btn-lg.btn-block:hover,
+            #ajax-content .well.center-block .btn.btn-primary.btn-lg.btn-block:focus,
+            #appearance-main-viewport .well.center-block .btn.btn-primary.btn-lg.btn-block:hover,
+            #appearance-main-viewport .well.center-block .btn.btn-primary.btn-lg.btn-block:focus {
+                background: #f7fbff !important;
+                border-color: #b9daf8 !important;
+                color: var(--erp-blue-dark) !important;
+                transform: translateY(-1px);
+            }
+
+            #ajax-content .well.center-block .btn.btn-primary.btn-lg.btn-block > span:first-child,
+            #appearance-main-viewport .well.center-block .btn.btn-primary.btn-lg.btn-block > span:first-child {
+                align-items: center;
+                background: #eef6fd;
+                border: 1px solid #d7ecfb;
+                border-radius: 8px;
+                color: var(--erp-blue) !important;
+                display: inline-flex;
+                flex: 0 0 44px;
+                font-size: 18px !important;
+                height: 44px;
+                justify-content: center;
+                margin: 0 !important;
+                width: 44px;
+            }
+
+            #ajax-content .well.center-block .btn.btn-primary.btn-lg.btn-block > br,
+            #appearance-main-viewport .well.center-block .btn.btn-primary.btn-lg.btn-block > br {
+                display: none !important;
+            }
+
+            #ajax-content .well.center-block .btn.btn-primary.btn-lg.btn-block .erp-icon,
+            #ajax-content .well.center-block .btn.btn-primary.btn-lg.btn-block svg,
+            #appearance-main-viewport .well.center-block .btn.btn-primary.btn-lg.btn-block .erp-icon,
+            #appearance-main-viewport .well.center-block .btn.btn-primary.btn-lg.btn-block svg {
+                color: var(--erp-blue) !important;
+                filter: none !important;
+                height: 24px !important;
+                stroke: currentColor !important;
+                text-shadow: none !important;
+                width: 24px !important;
+            }
+
+            html[dir="rtl"] #ajax-content .well.center-block .btn.btn-primary.btn-lg.btn-block,
+            html[dir="rtl"] #appearance-main-viewport .well.center-block .btn.btn-primary.btn-lg.btn-block {
+                direction: rtl;
+                justify-content: flex-start;
+                text-align: right !important;
+            }
+
+            .erp-tools-toolbar {
+                align-items: center;
+                display: flex;
+                gap: 12px;
+                justify-content: flex-start;
+                margin: 0 0 22px;
+                max-width: 520px;
+            }
+
+            .erp-tools-toolbar .erp-tools-filter,
+            .erp-tools-toolbar .erp-tools-search {
+                background: var(--erp-surface);
+                border: 1px solid var(--erp-border);
+                border-radius: 8px;
+                color: var(--erp-subtle);
+                height: 38px;
+                padding: 0 12px;
+            }
+
+            .erp-tools-toolbar .erp-tools-filter {
+                min-width: 220px;
+            }
+
+            .erp-tools-toolbar .erp-tools-search {
+                min-width: 260px;
+            }
+
+            .erp-tools-board {
+                background: transparent !important;
+                border: 0 !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+            }
+
+            .erp-tools-board > .row {
+                display: grid !important;
+                gap: 14px !important;
+                grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+            }
+
+            .erp-tools-section-title {
+                align-items: center;
+                color: var(--erp-text);
+                display: flex;
+                font-size: 17px;
+                font-weight: 700;
+                gap: 8px;
+                grid-column: 1 / -1;
+                justify-content: flex-end;
+                margin: 18px 0 4px;
+            }
+
+            .erp-tools-section-title:first-child {
+                margin-top: 0;
+            }
+
+            .erp-tools-card,
+            .erp-tools-board .btn.btn-primary.btn-lg.btn-block {
+                background: rgba(255, 255, 255, 0.92) !important;
+                border: 1px solid #e6ebf1 !important;
+                border-radius: 9px !important;
+                box-shadow: 0 10px 30px rgba(31, 39, 46, 0.05), 0 1px 2px rgba(31, 39, 46, 0.08) !important;
+                color: var(--erp-text) !important;
+                min-height: 84px;
+                overflow: hidden;
+                position: relative;
+            }
+
+            .erp-tools-card:hover,
+            .erp-tools-card:focus {
+                border-color: #cfe4f8 !important;
+                box-shadow: 0 12px 34px rgba(36, 144, 239, 0.12), 0 1px 2px rgba(31, 39, 46, 0.08) !important;
+                transform: translateY(-1px);
+            }
+
+            .erp-tools-card .erp-tool-icon-shell {
+                align-items: center;
+                background: #eef6ff;
+                border: 0;
+                border-radius: 14px;
+                color: #2490ef !important;
+                display: inline-flex;
+                flex: 0 0 56px;
+                height: 56px;
+                justify-content: center;
+                width: 56px;
+            }
+
+            .erp-tools-board .row > [class*="col-"]:nth-of-type(5n + 2) .erp-tool-icon-shell { background: #eafaf5; color: #00a884 !important; }
+            .erp-tools-board .row > [class*="col-"]:nth-of-type(5n + 3) .erp-tool-icon-shell { background: #f3edff; color: #8e5cf7 !important; }
+            .erp-tools-board .row > [class*="col-"]:nth-of-type(5n + 4) .erp-tool-icon-shell { background: #fff3e4; color: #f59f00 !important; }
+            .erp-tools-board .row > [class*="col-"]:nth-of-type(5n + 5) .erp-tool-icon-shell { background: #edf5ff; color: #2f80ed !important; }
+
+            .erp-tools-card .erp-tool-title {
+                display: block;
+                font-size: 14px;
+                font-weight: 700;
+                line-height: 1.35;
+            }
+
+            .erp-tools-card .erp-tool-subtitle {
+                color: var(--erp-subtle);
+                display: block;
+                font-size: 12px;
+                font-weight: 500;
+                line-height: 1.35;
+                margin-top: 5px;
+            }
+
+            .erp-tools-card .erp-tool-arrow {
+                bottom: 12px;
+                color: var(--erp-subtle);
+                font-size: 18px;
+                inset-inline-start: 14px;
+                position: absolute;
+            }
+
+            .erp-tools-board .erp-tools-featured .erp-tools-card {
+                align-items: center !important;
+                flex-direction: column !important;
+                justify-content: center !important;
+                min-height: 160px !important;
+                padding: 22px 18px !important;
+                text-align: center !important;
+            }
+
+            .erp-tools-board .erp-tools-featured .erp-tool-icon-shell {
+                margin-bottom: 14px !important;
+            }
+
+            .erp-tools-board .erp-tools-compact .erp-tools-card {
+                min-height: 78px !important;
+                padding: 12px 18px !important;
+            }
+
+            @media (max-width: 1300px) {
+                .erp-tools-board > .row {
+                    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+                }
+            }
+
+            @media (max-width: 980px) {
+                .erp-tools-board > .row {
+                    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                }
+
+                .erp-tools-toolbar {
+                    align-items: stretch;
+                    flex-direction: column;
+                    max-width: none;
+                }
+            }
+
+            @media (max-width: 560px) {
+                .erp-tools-board > .row {
+                    grid-template-columns: 1fr !important;
+                }
+            }
+
+            .dashboard-widget,
+            .panel-item {
+                box-shadow: var(--erp-shadow) !important;
+            }
+
+            .fa,
+            .fa::before,
+            .fas,
+            .fas::before,
+            .far,
+            .far::before,
+            .fab,
+            .fab::before,
+            .fal,
+            .fal::before,
+            .fad,
+            .fad::before,
+            .svg-inline--fa,
+            .svg-inline--fa *,
+            [class^="icon-"],
+            [class^="icon-"]::before,
+            [class*=" icon-"],
+            [class*=" icon-"]::before {
+                font-family: "Font Awesome 5 Free", "Font Awesome 5 Brands" !important;
+            }
+
+            .erp-language-switcher {
+                background: var(--erp-surface);
+                border: 1px solid var(--erp-border);
+                border-radius: var(--erp-radius);
+                box-shadow: var(--erp-shadow);
+                display: inline-block;
+                float: left;
+                margin: 11px 8px 0 8px;
+                position: relative;
+                z-index: 1040;
+            }
+
+            .erp-language-toggle {
+                align-items: center;
+                background: transparent;
+                border: 0;
+                color: var(--erp-text);
+                display: flex;
+                gap: 6px;
+                height: 32px;
+                padding: 0 9px;
+            }
+
+            .erp-language-menu {
+                background: var(--erp-surface);
+                border: 1px solid var(--erp-border);
+                border-radius: var(--erp-radius);
+                box-shadow: 0 8px 24px rgba(31, 39, 46, 0.12);
+                display: none;
+                left: 0;
+                min-width: 132px;
+                padding: 5px;
+                position: absolute;
+                top: calc(100% + 5px);
+            }
+
+            .erp-language-switcher:hover .erp-language-menu,
+            .erp-language-switcher:focus-within .erp-language-menu,
+            .erp-language-switcher.is-open .erp-language-menu {
+                display: block;
+            }
+
+            .erp-language-button {
+                background: transparent;
+                border: 0;
+                border-radius: 4px;
+                color: var(--erp-subtle);
+                display: block;
+                font-size: 12px;
+                font-weight: 650;
+                line-height: 1;
+                padding: 9px 10px;
+                text-align: left;
+                width: 100%;
+            }
+
+            .erp-language-button:hover,
+            .erp-language-button.is-active {
+                background: var(--erp-muted);
+                color: var(--erp-text);
+            }
+
+            .erp-brand-logo-image {
+                border-radius: 6px;
+                display: block;
+                flex: 0 0 40px;
+                height: 40px;
+                margin-inline-end: 0;
+                object-fit: contain;
+                width: 40px;
+            }
+
+            .erp-customizer {
+                background: var(--erp-surface);
+                border: 1px solid var(--erp-border);
+                border-radius: var(--erp-radius);
+                box-shadow: var(--erp-shadow);
+                display: inline-block;
+                float: left;
+                margin: 11px 0 0 4px;
+                position: relative;
+                z-index: 1040;
+            }
+
+            .erp-customizer-toggle {
+                align-items: center;
+                background: transparent;
+                border: 0;
+                color: var(--erp-text);
+                display: flex;
+                gap: 6px;
+                height: 32px;
+                padding: 0 9px;
+            }
+
+            .erp-customizer-panel {
+                background: var(--erp-surface);
+                border: 1px solid var(--erp-border);
+                border-radius: var(--erp-radius);
+                box-shadow: 0 14px 36px rgba(31, 39, 46, 0.16);
+                display: none;
+                left: 0;
+                max-height: calc(100vh - 84px);
+                min-width: 320px;
+                overflow-y: auto;
+                padding: 14px;
+                position: absolute;
+                top: calc(100% + 5px);
+                width: min(360px, calc(100vw - 32px));
+            }
+
+            .erp-customizer.is-open .erp-customizer-panel {
+                display: block;
+            }
+
+            .erp-customizer-title {
+                color: var(--erp-text);
+                font-size: 13px;
+                font-weight: 700;
+                margin-bottom: 10px;
+            }
+
+            .erp-customizer-field {
+                margin-bottom: 12px;
+            }
+
+            .erp-customizer-label {
+                color: var(--erp-subtle);
+                display: block;
+                font-size: 11px;
+                font-weight: 700;
+                margin-bottom: 6px;
+            }
+
+            .erp-customizer-input {
+                border: 1px solid var(--erp-border);
+                border-radius: var(--erp-radius);
+                box-shadow: none;
+                color: var(--erp-text);
+                height: 34px;
+                padding: 6px 8px;
+                width: 100%;
+            }
+
+            .erp-customizer-file {
+                height: 0.1px;
+                opacity: 0;
+                overflow: hidden;
+                position: absolute;
+                width: 0.1px;
+                z-index: -1;
+            }
+
+            .erp-customizer-file-button {
+                align-items: center;
+                background: var(--erp-surface);
+                border: 1px solid var(--erp-border);
+                border-radius: var(--erp-radius);
+                color: var(--erp-text);
+                cursor: pointer;
+                display: flex;
+                font-size: 12px;
+                font-weight: 700;
+                gap: 8px;
+                height: 34px;
+                justify-content: space-between;
+                padding: 0 10px;
+                width: 100%;
+            }
+
+            .erp-customizer-file-button:hover {
+                background: var(--erp-muted);
+            }
+
+            .erp-customizer-file-name {
+                color: var(--erp-subtle);
+                display: block;
+                font-size: 11px;
+                margin-top: 5px;
+                min-height: 16px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .erp-customizer-actions {
+                display: flex;
+                gap: 8px;
+                justify-content: flex-end;
+            }
+
+            .erp-customizer-action {
+                background: var(--erp-surface);
+                border: 1px solid var(--erp-border);
+                border-radius: var(--erp-radius);
+                color: var(--erp-text);
+                font-size: 12px;
+                font-weight: 700;
+                height: 32px;
+                padding: 0 10px;
+            }
+
+            .erp-customizer-action:hover {
+                background: var(--erp-muted);
+            }
+
+            .erp-customizer-sidebar {
+                background: transparent;
+                border: 0;
+                box-shadow: none;
+                display: block;
+                float: none;
+                margin: 3px 0;
+                position: static;
+                width: 100%;
+            }
+
+            .erp-customizer-sidebar .erp-customizer-toggle {
+                align-items: center;
+                border-radius: var(--erp-radius);
+                color: var(--erp-subtle);
+                display: flex;
+                font-size: 13px;
+                font-weight: 500;
+                gap: 7px;
+                height: auto;
+                justify-content: flex-start;
+                padding: 9px;
+                text-align: inherit;
+                width: 100%;
+            }
+
+            .erp-customizer-sidebar .erp-customizer-toggle:hover,
+            .erp-customizer-sidebar.is-open .erp-customizer-toggle {
+                background: var(--erp-sidebar-active);
+                color: var(--erp-text);
+            }
+
+            .erp-customizer-sidebar .erp-customizer-panel {
+                border-color: var(--erp-border);
+                box-shadow: none;
+                left: auto;
+                margin-top: 6px;
+                max-height: none;
+                min-width: 0;
+                position: static;
+                right: auto;
+                top: auto;
+                width: 100%;
+            }
+
+            .erp-icon {
+                align-items: center;
+                color: currentColor;
+                display: inline-flex;
+                flex: 0 0 auto;
+                height: 16px;
+                justify-content: center;
+                line-height: 1;
+                vertical-align: -2px;
+                width: 16px;
+            }
+
+            .erp-icon svg {
+                display: block;
+                height: 16px;
+                stroke: currentColor;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                stroke-width: 2;
+                width: 16px;
+            }
+
+            .erp-icon-sm svg,
+            .erp-icon-sm {
+                height: 14px;
+                width: 14px;
+            }
+
+            html[dir="rtl"] body {
+                direction: rtl;
+                text-align: right;
+            }
+
+            html[dir="ltr"] #menu-main {
+                border-left: 0 !important;
+                border-right: 1px solid var(--erp-border) !important;
+                left: 0 !important;
+                right: auto !important;
+                text-align: left !important;
+            }
+
+            html[dir="ltr"] #appearance-main-viewport {
+                margin-left: var(--erp-sidebar-width) !important;
+                margin-right: 0 !important;
+            }
+
+            html[dir="ltr"] #menu-topbar .navbar-header {
+                float: left !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                width: var(--erp-sidebar-width) !important;
+            }
+
+            html[dir="ltr"] #menu-topbar .navbar-brand {
+                border-left: 0 !important;
+                border-right: 1px solid var(--erp-border) !important;
+                float: left !important;
+                justify-content: flex-start !important;
+                text-align: left !important;
+            }
+
+            html[dir="ltr"] #navbar.navbar-collapse {
+                margin-left: var(--erp-sidebar-width) !important;
+                margin-right: 0 !important;
+            }
+
+            html[dir="ltr"] #menu-main *,
+            html[dir="ltr"] #accordion-sidebar,
+            html[dir="ltr"] #accordion-sidebar * {
+                direction: ltr !important;
+                text-align: left !important;
+            }
+
+            html[dir="ltr"] #accordion-sidebar .panel-title a,
+            html[dir="ltr"] #accordion-sidebar .panel-body a {
+                justify-content: flex-start !important;
+            }
+
+            html[dir="ltr"] #accordion-sidebar .pull-left {
+                align-items: center !important;
+                display: flex !important;
+                float: none !important;
+                gap: 10px !important;
+                justify-content: flex-start !important;
+                margin-left: 0 !important;
+                margin-right: auto !important;
+                order: 1 !important;
+                width: calc(100% - 28px) !important;
+            }
+
+            html[dir="ltr"] #accordion-sidebar .pull-right,
+            html[dir="ltr"] #accordion-sidebar .accordion-indicator {
+                float: none !important;
+                margin-left: auto !important;
+                margin-right: 0 !important;
+                order: 2 !important;
+                width: 20px !important;
+            }
+
+            html[dir="rtl"] #menu-main {
+                border-left: 1px solid var(--erp-border) !important;
+                border-right: 0 !important;
+                left: auto !important;
+                right: 0 !important;
+                text-align: right !important;
+            }
+
+            html[dir="rtl"] #menu-main *,
+            html[dir="rtl"] #accordion-sidebar,
+            html[dir="rtl"] #accordion-sidebar * {
+                direction: rtl !important;
+                text-align: right !important;
+            }
+
+            html[dir="rtl"] #accordion-sidebar .panel-title a,
+            html[dir="rtl"] #accordion-sidebar .panel-body a {
+                align-items: center !important;
+                display: flex !important;
+                justify-content: flex-start !important;
+                text-align: right !important;
+                width: 100% !important;
+            }
+
+            html[dir="rtl"] #accordion-sidebar .pull-left {
+                align-items: center !important;
+                display: flex !important;
+                float: none !important;
+                gap: 10px !important;
+                justify-content: flex-start !important;
+                margin-left: auto !important;
+                margin-right: 0 !important;
+                order: 1 !important;
+                text-align: right !important;
+                width: calc(100% - 28px) !important;
+            }
+
+            html[dir="rtl"] #accordion-sidebar .pull-right,
+            html[dir="rtl"] #accordion-sidebar .accordion-indicator {
+                float: none !important;
+                margin-left: 0 !important;
+                margin-right: auto !important;
+                order: 2 !important;
+                text-align: left !important;
+                width: 20px !important;
+            }
+
+            html[dir="rtl"] #accordion-sidebar .fa,
+            html[dir="rtl"] #accordion-sidebar .fas,
+            html[dir="rtl"] #accordion-sidebar .far {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                text-align: center !important;
+            }
+
+            html[dir="rtl"] .dropdown-menu {
+                direction: rtl !important;
+                text-align: right !important;
+            }
+
+            html[dir="rtl"] .dropdown-menu > li > a,
+            html[dir="rtl"] .dropdown-menu > li > form > button,
+            html[dir="rtl"] .dropdown-menu .navigation-btn-dropdown,
+            html[dir="rtl"] .dropdown-menu .btn-multi-item-action {
+                direction: rtl !important;
+                flex-direction: row !important;
+                justify-content: flex-start !important;
+                text-align: right !important;
+            }
+
+            html[dir="ltr"] .dropdown-menu {
+                direction: ltr !important;
+                text-align: left !important;
+            }
+
+            html[dir="ltr"] .dropdown-menu > li > a,
+            html[dir="ltr"] .dropdown-menu > li > form > button,
+            html[dir="ltr"] .dropdown-menu .navigation-btn-dropdown,
+            html[dir="ltr"] .dropdown-menu .btn-multi-item-action {
+                direction: ltr !important;
+                flex-direction: row !important;
+                justify-content: flex-start !important;
+                text-align: left !important;
+            }
+
+            html[dir="rtl"] #accordion-sidebar .panel-body {
+                padding-left: 0 !important;
+                padding-right: 16px !important;
+            }
+
+            html[dir="rtl"] #accordion-sidebar .panel-body ul,
+            html[dir="rtl"] #accordion-sidebar ul,
+            html[dir="rtl"] #accordion-sidebar li {
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                text-align: right !important;
+            }
+
+            html[dir="rtl"] #accordion-sidebar .clearfix {
+                display: none !important;
+            }
+
+            html[dir="rtl"] #appearance-main-viewport {
+                margin-left: 0 !important;
+                margin-right: var(--erp-sidebar-width) !important;
+            }
+
+            html[dir="rtl"] #menu-topbar .navbar .container-fluid {
+                direction: rtl !important;
+            }
+
+            html[dir="rtl"] #menu-topbar .navbar-header {
+                float: right !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                width: var(--erp-sidebar-width) !important;
+            }
+
+            html[dir="rtl"] #menu-topbar .navbar-brand {
+                border-left: 1px solid var(--erp-border) !important;
+                border-right: 0 !important;
+                float: right !important;
+                justify-content: flex-start !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                text-align: right !important;
+                width: var(--erp-sidebar-width) !important;
+            }
+
+            html[dir="rtl"] #navbar.navbar-collapse {
+                margin-left: 0 !important;
+                margin-right: var(--erp-sidebar-width) !important;
+                padding-left: 16px !important;
+                padding-right: 0 !important;
+            }
+
+            html[dir="rtl"] #navbar .navbar-nav,
+            html[dir="rtl"] #navbar .navbar-left,
+            html[dir="rtl"] #navbar .navbar-right {
+                float: left !important;
+            }
+
+            html[dir="rtl"] #search-navbar-form {
+                float: right !important;
+                margin-left: 8px !important;
+                margin-right: 12px !important;
+            }
+
+            html[dir="rtl"] .navbar-right {
+                float: left !important;
+            }
+
+            html[dir="rtl"] .erp-language-switcher {
+                float: left;
+            }
+
+            html[dir="rtl"] .erp-customizer {
+                float: left;
+            }
+
+            html[dir="rtl"] .erp-customizer-sidebar {
+                float: none;
+            }
+
+            html[dir="rtl"] .erp-customizer-sidebar .erp-customizer-toggle {
+                justify-content: flex-start;
+                text-align: right;
+            }
+
+            html[dir="rtl"] .erp-language-menu {
+                left: auto;
+                right: 0;
+            }
+
+            html[dir="rtl"] .erp-customizer-panel {
+                left: 0;
+                right: auto;
+            }
+
+            html[dir="rtl"] .erp-language-button {
+                text-align: right;
+            }
+
+            html[dir="rtl"] .erp-customizer-label,
+            html[dir="rtl"] .erp-customizer-title,
+            html[dir="rtl"] .erp-customizer-file-name {
+                text-align: right;
+            }
+
+            #main-menu-footer .erp-sidebar-logout {
+                align-items: center;
+                background: transparent;
+                border: 0;
+                border-radius: var(--erp-radius);
+                color: var(--erp-subtle) !important;
+                display: flex;
+                font-size: 13px;
+                font-weight: 500;
+                gap: 7px;
+                justify-content: flex-start;
+                margin: 4px 14px 2px;
+                min-height: 34px;
+                padding: 9px;
+                text-align: inherit;
+                width: calc(100% - 28px);
+            }
+
+            #main-menu-footer .erp-sidebar-logout:hover,
+            #main-menu-footer .erp-sidebar-logout:focus {
+                background: var(--erp-sidebar-active) !important;
+                color: var(--erp-text) !important;
+                text-decoration: none;
+            }
+
+            #main-menu-footer .erp-sidebar-logout span {
+                color: inherit !important;
+            }
+
+            #main-menu-footer .erp-sidebar-logout .erp-icon,
+            #main-menu-footer .erp-sidebar-logout .erp-icon svg {
+                height: 16px;
+                stroke: currentColor !important;
+                width: 16px;
+            }
+
+            html[dir="rtl"] #main-menu-footer .erp-sidebar-logout {
+                justify-content: flex-start;
+                text-align: right;
+            }
+
+            #main-menu-footer {
+                background: transparent !important;
+                border: 0 !important;
+                box-shadow: none !important;
+                padding: 8px 0 12px !important;
+            }
+
+            #main-menu-footer hr,
+            #main-menu-footer p {
+                display: none !important;
+            }
+
+            .erp-share-actionbar {
+                align-items: center;
+                display: flex;
+                justify-content: flex-end;
+                margin: 0 0 12px;
+            }
+
+            .erp-share-action {
+                align-items: center;
+                background: var(--erp-surface) !important;
+                border: 1px solid var(--erp-border) !important;
+                border-radius: var(--erp-radius) !important;
+                color: var(--erp-text) !important;
+                display: inline-flex;
+                font-size: 13px;
+                font-weight: 500;
+                gap: 7px;
+                min-height: 34px;
+                padding: 7px 12px;
+                text-decoration: none !important;
+            }
+
+            .erp-share-action:hover,
+            .erp-share-action:focus {
+                background: var(--erp-muted) !important;
+                color: var(--erp-text) !important;
+            }
+
+            html[dir="rtl"] .erp-share-actionbar {
+                justify-content: flex-start;
+            }
+
+            @media (max-width: 767px) {
+                #appearance-main-viewport {
+                    margin-left: 0 !important;
+                    margin-right: 0 !important;
+                    padding: 16px !important;
+                }
+
+                #menu-main {
+                    left: calc(var(--erp-sidebar-width) * -1) !important;
+                }
+
+                #menu-main.menu-main-opened {
+                    left: 0 !important;
+                }
+
+                .erp-customizer-panel {
+                    left: 8px !important;
+                    right: auto !important;
+                    width: calc(100vw - 16px) !important;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        {% if appearance_type == 'plain' %}
+            {% block content %}{% endblock %}
+        {% else %}
+            <div id="menu-topbar">
+                {% include 'appearance/menus/topbar.html' %}
+            </div>
+            <template id="erp-language-switcher-template">
+                <div aria-label="Language selector" class="erp-language-switcher">
+                    <button aria-haspopup="true" class="erp-language-toggle" type="button">
+                        <span class="erp-icon erp-icon-sm" data-erp-static-icon="globe">
+                            <svg fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20"></path><path d="M12 2a15.3 15.3 0 0 1 0 20"></path><path d="M12 2a15.3 15.3 0 0 0 0 20"></path></svg>
+                        </span>
+                        <span class="erp-language-current">EN</span>
+                        <span class="erp-icon erp-icon-sm" data-erp-static-icon="chevron-down">
+                            <svg fill="none" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg>
+                        </span>
+                    </button>
+                    <div class="erp-language-menu" role="menu">
+                        <button class="erp-language-button" data-language-code="en" type="button">English</button>
+                        <button class="erp-language-button" data-language-code="fr" type="button">Français</button>
+                        <button class="erp-language-button" data-language-code="ar" type="button">العربية</button>
+                    </div>
+                </div>
+            </template>
+            <template id="erp-customizer-template">
+                <div aria-label="Appearance customizer" class="erp-customizer">
+                    <button aria-haspopup="true" class="erp-customizer-toggle" type="button">
+                        <span class="erp-icon erp-icon-sm" data-erp-static-icon="settings">
+                            <svg fill="none" viewBox="0 0 24 24"><path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5z"></path><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1A2 2 0 1 1 4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7A2 2 0 1 1 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3h.1A1.7 1.7 0 0 0 10 3V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.6h.1a1.7 1.7 0 0 0 1.9-.3l.1-.1A2 2 0 1 1 19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9v.1a1.7 1.7 0 0 0 1.6 1h.1a2 2 0 1 1 0 4H21a1.7 1.7 0 0 0-1.6 1z"></path></svg>
+                        </span>
+                        <span data-i18n-key="Appearance">Appearance</span>
+                    </button>
+                    <div class="erp-customizer-panel">
+                        <div class="erp-customizer-title" data-i18n-key="Appearance">Appearance</div>
+                        <div class="erp-customizer-field">
+                            <label class="erp-customizer-label" for="erp-brand-title-input" data-i18n-key="Application name">Application name</label>
+                            <input class="erp-customizer-input" id="erp-brand-title-input" maxlength="40" type="text">
+                        </div>
+                        <div class="erp-customizer-field">
+                            <label class="erp-customizer-label" for="erp-logo-input" data-i18n-key="Application logo">Application logo</label>
+                            <input accept="image/*" class="erp-customizer-file" id="erp-logo-input" type="file">
+                            <label class="erp-customizer-file-button" for="erp-logo-input">
+                                <span data-i18n-key="Choose image">Choose image</span>
+                                <span class="erp-icon erp-icon-sm" data-erp-static-icon="upload"><svg fill="none" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="M17 8l-5-5-5 5"></path><path d="M12 3v12"></path></svg></span>
+                            </label>
+                            <span class="erp-customizer-file-name" data-file-name-for="erp-logo-input" data-i18n-key="No file selected">No file selected</span>
+                        </div>
+                        <div class="erp-customizer-field">
+                            <label class="erp-customizer-label" for="erp-cover-input" data-i18n-key="Login cover">Login cover</label>
+                            <input accept="image/*" class="erp-customizer-file" id="erp-cover-input" type="file">
+                            <label class="erp-customizer-file-button" for="erp-cover-input">
+                                <span data-i18n-key="Choose image">Choose image</span>
+                                <span class="erp-icon erp-icon-sm" data-erp-static-icon="upload"><svg fill="none" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="M17 8l-5-5-5 5"></path><path d="M12 3v12"></path></svg></span>
+                            </label>
+                            <span class="erp-customizer-file-name" data-file-name-for="erp-cover-input" data-i18n-key="No file selected">No file selected</span>
+                        </div>
+                        <div class="erp-customizer-field">
+                            <label class="erp-customizer-label" for="erp-favicon-input" data-i18n-key="Favicon">Favicon</label>
+                            <input accept="image/*,.ico" class="erp-customizer-file" id="erp-favicon-input" type="file">
+                            <label class="erp-customizer-file-button" for="erp-favicon-input">
+                                <span data-i18n-key="Choose icon">Choose icon</span>
+                                <span class="erp-icon erp-icon-sm" data-erp-static-icon="upload"><svg fill="none" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="M17 8l-5-5-5 5"></path><path d="M12 3v12"></path></svg></span>
+                            </label>
+                            <span class="erp-customizer-file-name" data-file-name-for="erp-favicon-input" data-i18n-key="No file selected">No file selected</span>
+                        </div>
+                        <div class="erp-customizer-actions">
+                            <button class="erp-customizer-action" data-customizer-reset type="button" data-i18n-key="Reset">Reset</button>
+                            <button class="erp-customizer-action" data-customizer-close type="button" data-i18n-key="Done">Done</button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <div id="menu-main">
+                {% include 'appearance/menus/main.html' %}
+            </div>
+            <div id="appearance-main-viewport">
+                <div class="row zero-margin">
+                    <div class="col-xs-12">
+                        <div id="ajax-header"></div>
+                        <div id="ajax-content"></div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="modal fade" id="modal-server-error" role="dialog" tabindex="-1" >
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">{% trans 'Server error' %}</h4>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script id="template-error" type="text/x-template">
+            <div class="content">
+                <h2 class="title">{% blocktrans %}Server communication error{% endblocktrans %}</h2>
+                <div class="inner">
+                    <p>{% blocktrans %}Check you network connection and try again in a few moments.{% endblocktrans %}</p>
+                </div>
+            </div>
+        </script>
+
+        {% appearance_app_templates template_name='foot' %}
+        <script>
+            (function () {
+                const cookieName = 'django_language';
+                const rtlLanguages = ['ar'];
+                const dictionaries = {
+                    fr: {
+                        'Advanced': 'Avance',
+                        'Advanced tools': 'Outils avances',
+                        'All categories': 'Toutes les categories',
+                        'Active': 'Actif',
+                        'Application logo': 'Logo de l application',
+                        'Application name': 'Nom de l application',
+                        'Appearance': 'Apparence',
+                        'Back': 'Retour',
+                        'Cabinets': 'Classeurs',
+                        'Checkouts': 'Verrouillages',
+                        'Choose icon': 'Choisir une icone',
+                        'Choose image': 'Choisir une image',
+                        'Create link': 'Creer le lien',
+                        'Create secure public links for this item.': 'Creer des liens publics securises pour cet element.',
+                        'Current links': 'Liens actuels',
+                        'Delete': 'Supprimer',
+                        'Disable': 'Desactiver',
+                        'Document': 'Document',
+                        'Documents': 'Documents',
+                        'Done': 'Termine',
+                        'Enable': 'Activer',
+                        'Expiration time': 'Date d expiration',
+                        'Expires': 'Expire',
+                        'Favorites': 'Favoris',
+                        'Favicon': 'Favicon',
+                        'Home': 'Accueil',
+                        'Indexes': 'Index',
+                        'Label': 'Libelle',
+                        'Login cover': 'Couverture de connexion',
+                        'Logout': 'Deconnexion',
+                        'New share': 'Nouveau partage',
+                        'No external shares yet.': 'Aucun partage externe.',
+                        'No file selected': 'Aucun fichier selectionne',
+                        'Most used': 'Les plus utilises',
+                        'Password': 'Mot de passe',
+                        'Password protected': 'Protege par mot de passe',
+                        'Permission': 'Permission',
+                        'Recently accessed': 'Recemment consultes',
+                        'Recently created': 'Recemment crees',
+                        'Reset': 'Reinitialiser',
+                        'Search': 'Rechercher',
+                        'Search tools': 'Rechercher dans les outils',
+                        'Search terms': 'Termes de recherche',
+                        'Setup': 'Configuration',
+                        'External sharing': 'Partage externe',
+                        'System management': 'Gestion du systeme',
+                        'Tags': 'Etiquettes',
+                        'Tools': 'Outils',
+                        'User': 'Utilisateur',
+                        'User dashboard': 'Tableau de bord utilisateur',
+                        'View and download': 'Voir et telecharger',
+                        'View details': 'Voir les details',
+                        'View only': 'Lecture seule'
+                    },
+                    ar: {
+                        'Advanced': 'بحث متقدم',
+                        'Advanced tools': 'أدوات متقدمة',
+                        'All categories': 'جميع التصنيفات',
+                        'Active': 'نشط',
+                        'Application logo': 'شعار التطبيق',
+                        'Application name': 'اسم التطبيق',
+                        'Appearance': 'المظهر',
+                        'Back': 'رجوع',
+                        'Cabinets': 'الخزائن',
+                        'Checkouts': 'الإعارات',
+                        'Choose icon': 'اختر أيقونة',
+                        'Choose image': 'اختر صورة',
+                        'Create link': 'إنشاء الرابط',
+                        'Create secure public links for this item.': 'إنشاء روابط عامة آمنة لهذا العنصر.',
+                        'Current links': 'الروابط الحالية',
+                        'Delete': 'حذف',
+                        'Disable': 'تعطيل',
+                        'Document': 'مستند',
+                        'Documents': 'المستندات',
+                        'Done': 'تم',
+                        'Enable': 'تفعيل',
+                        'Expiration time': 'وقت انتهاء الصلاحية',
+                        'Expires': 'ينتهي',
+                        'Favorites': 'المفضلة',
+                        'Favicon': 'أيقونة المتصفح',
+                        'Home': 'الرئيسية',
+                        'Indexes': 'الفهارس',
+                        'Label': 'العنوان',
+                        'Login cover': 'غلاف تسجيل الدخول',
+                        'Logout': 'تسجيل الخروج',
+                        'New share': 'مشاركة جديدة',
+                        'No external shares yet.': 'لا توجد مشاركات خارجية بعد.',
+                        'No file selected': 'لم يتم اختيار ملف',
+                        'Most used': 'الأكثر استخدامًا',
+                        'Password': 'كلمة المرور',
+                        'Password protected': 'محمي بكلمة مرور',
+                        'Permission': 'الصلاحية',
+                        'Recently accessed': 'تم الوصول إليها مؤخرا',
+                        'Recently created': 'أنشئت مؤخرا',
+                        'Reset': 'إعادة تعيين',
+                        'Search': 'بحث',
+                        'Search tools': 'ابحث في الأدوات...',
+                        'Search terms': 'كلمات البحث',
+                        'Setup': 'الإعدادات',
+                        'External sharing': 'مشاركة خارجية',
+                        'System management': 'إدارة النظام',
+                        'Tags': 'الوسوم',
+                        'Tools': 'الأدوات',
+                        'User': 'المستخدم',
+                        'User dashboard': 'لوحة المستخدم',
+                        'View and download': 'عرض وتحميل',
+                        'View details': 'عرض التفاصيل',
+                        'View only': 'عرض فقط'
+                    }
+                };
+
+                function getCookie(name) {
+                    const value = '; ' + document.cookie;
+                    const parts = value.split('; ' + name + '=');
+                    if (parts.length === 2) {
+                        return parts.pop().split(';').shift();
+                    }
+                }
+
+                function setLanguage(languageCode) {
+                    const maxAge = 60 * 60 * 24 * 365;
+                    document.cookie = cookieName + '=' + languageCode + '; path=/; max-age=' + maxAge + '; SameSite=Lax';
+                    window.localStorage.setItem(cookieName, languageCode);
+                    window.location.href = '/locales/set-language/?language=' + encodeURIComponent(languageCode) + '&next=' + encodeURIComponent(window.location.pathname + window.location.search + window.location.hash);
+                }
+
+                function refreshLanguageSwitcher(languageCode) {
+                    document.querySelectorAll('.erp-language-button').forEach(function (button) {
+                        const buttonLanguage = button.getAttribute('data-language-code');
+                        button.classList.toggle('is-active', buttonLanguage === languageCode);
+                    });
+
+                    document.querySelectorAll('.erp-language-current').forEach(function (element) {
+                        element.textContent = languageCode.toUpperCase();
+                    });
+                }
+
+                function translateNodeText(node, dictionary) {
+                    const originalText = node.nodeValue;
+                    const trimmedText = originalText.trim();
+
+                    if (!trimmedText || !dictionary[trimmedText]) {
+                        return;
+                    }
+
+                    node.nodeValue = originalText.replace(trimmedText, dictionary[trimmedText]);
+                }
+
+                function applyClientTranslations(languageCode) {
+                    const dictionary = dictionaries[languageCode];
+
+                    if (!dictionary) {
+                        return;
+                    }
+
+                    document.querySelectorAll('input[placeholder], textarea[placeholder]').forEach(function (element) {
+                        const placeholder = element.getAttribute('data-i18n-placeholder') || element.getAttribute('placeholder');
+                        if (dictionary[placeholder]) {
+                            element.setAttribute('placeholder', dictionary[placeholder]);
+                        }
+                    });
+
+                    document.querySelectorAll('option, button, a, h1, h2, h3, h4, h5, p, span, li, label, small').forEach(function (element) {
+                        Array.prototype.slice.call(element.childNodes).forEach(function (node) {
+                            if (node.nodeType === Node.TEXT_NODE) {
+                                translateNodeText(node, dictionary);
+                            }
+                        });
+                    });
+                }
+
+                function applyCairoFont() {
+                    const fontFamily = '"Cairo", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
+                    document.documentElement.style.fontFamily = fontFamily;
+                    document.body.style.fontFamily = fontFamily;
+                    document.documentElement.style.letterSpacing = '0';
+                    document.body.style.letterSpacing = '0';
+                }
+
+                function mountLanguageSwitcher() {
+                    if (document.querySelector('#navbar .erp-language-switcher')) {
+                        return;
+                    }
+
+                    const template = document.querySelector('#erp-language-switcher-template');
+                    const navbar = document.querySelector('#navbar');
+                    const navbarRight = document.querySelector('#navbar .navbar-right');
+
+                    if (!template || !navbar) {
+                        return;
+                    }
+
+                    const switcher = template.content.firstElementChild.cloneNode(true);
+
+                    if (navbarRight) {
+                        navbar.insertBefore(switcher, navbarRight);
+                    } else {
+                        navbar.appendChild(switcher);
+                    }
+                }
+
+                function mountCustomizer() {
+                    if (document.querySelector('#accordion-sidebar .erp-customizer')) {
+                        return;
+                    }
+
+                    const template = document.querySelector('#erp-customizer-template');
+                    const systemList = document.querySelector('[data-erp-sidebar-system="true"] .panel-body > ul');
+
+                    if (!template || !systemList) {
+                        return;
+                    }
+
+                    const customizer = template.content.firstElementChild.cloneNode(true);
+                    customizer.classList.add('erp-customizer-sidebar');
+                    const listItem = document.createElement('li');
+                    listItem.appendChild(customizer);
+
+                    systemList.insertBefore(listItem, systemList.firstChild);
+                }
+
+                function readFileAsDataUrl(file, callback) {
+                    const isIconFile = file && /\.ico$/i.test(file.name || '');
+                    if (!file || (!isIconFile && (!file.type || file.type.indexOf('image/') !== 0))) {
+                        return;
+                    }
+
+                    const reader = new FileReader();
+                    reader.onload = function () {
+                        callback(reader.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
+
+                function setStoredImage(key, dataUrl, inputId) {
+                    try {
+                        window.localStorage.setItem(key, dataUrl);
+                        setFileStatus(inputId, 'saved');
+                        return true;
+                    } catch (error) {
+                        setFileStatus(inputId, 'too-large');
+                        return false;
+                    }
+                }
+
+                function setFileStatus(inputId, status) {
+                    const label = document.querySelector('[data-file-name-for="' + inputId + '"]');
+                    if (!label) {
+                        return;
+                    }
+
+                    const messages = {
+                        saved: normalizedLanguage === 'ar' ? 'تم الحفظ' : normalizedLanguage === 'fr' ? 'Enregistre' : 'Saved',
+                        'too-large': normalizedLanguage === 'ar' ? 'الصورة كبيرة جداً، اختر صورة أصغر' : normalizedLanguage === 'fr' ? 'Image trop grande' : 'Image is too large'
+                    };
+
+                    label.textContent = messages[status] || label.textContent;
+                }
+
+                function resizeImageFile(file, options, callback) {
+                    const isSvg = file && file.type === 'image/svg+xml';
+                    const isIconFile = file && /\.ico$/i.test(file.name || '');
+
+                    if (isSvg || isIconFile) {
+                        readFileAsDataUrl(file, callback);
+                        return;
+                    }
+
+                    readFileAsDataUrl(file, function (dataUrl) {
+                        const image = new Image();
+                        image.onload = function () {
+                            const maxWidth = options.maxWidth || 512;
+                            const maxHeight = options.maxHeight || 512;
+                            const scale = Math.min(1, maxWidth / image.width, maxHeight / image.height);
+                            const width = Math.max(1, Math.round(image.width * scale));
+                            const height = Math.max(1, Math.round(image.height * scale));
+                            const canvas = document.createElement('canvas');
+                            const context = canvas.getContext('2d');
+
+                            canvas.width = width;
+                            canvas.height = height;
+                            context.drawImage(image, 0, 0, width, height);
+                            callback(canvas.toDataURL(options.type || 'image/png', options.quality || 0.86));
+                        };
+                        image.onerror = function () {
+                            callback(dataUrl);
+                        };
+                        image.src = dataUrl;
+                    });
+                }
+
+                function getBrandTitle() {
+                    return window.localStorage.getItem('edms_brand_title') || '';
+                }
+
+                function applyBranding() {
+                    const logoData = window.localStorage.getItem('edms_brand_logo');
+                    const brandTitle = getBrandTitle();
+
+                    document.querySelectorAll('#menu-topbar .navbar-brand').forEach(function (brand) {
+                        if (!brand.dataset.defaultBrandHtml) {
+                            brand.dataset.defaultBrandHtml = brand.innerHTML;
+                        }
+
+                        const label = brandTitle || 'EDMS';
+                        brand.innerHTML = '';
+
+                        if (logoData) {
+                            const image = document.createElement('img');
+                            image.alt = label;
+                            image.className = 'erp-brand-logo-image';
+                            image.src = logoData;
+                            brand.appendChild(image);
+                        }
+
+                        const text = document.createElement('span');
+                        text.className = 'erp-brand-title';
+                        text.textContent = label;
+                        brand.appendChild(text);
+                    });
+
+                    document.querySelectorAll('#erp-brand-title-input').forEach(function (input) {
+                        input.value = brandTitle;
+                    });
+                }
+
+                function resetBranding() {
+                    window.localStorage.removeItem('edms_brand_logo');
+                    window.localStorage.removeItem('edms_brand_title');
+                    window.localStorage.removeItem('edms_login_cover_image');
+                    window.localStorage.removeItem('edms_favicon');
+                    applyBranding();
+                    applyFavicon();
+                    document.querySelectorAll('#erp-logo-input, #erp-cover-input, #erp-favicon-input').forEach(function (input) {
+                        input.value = '';
+                    });
+                    updateFileLabels();
+                }
+
+                function applyFavicon() {
+                    const faviconData = window.localStorage.getItem('edms_favicon');
+
+                    document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"]').forEach(function (element) {
+                        element.remove();
+                    });
+
+                    if (!faviconData) {
+                        return;
+                    }
+
+                    const link = document.createElement('link');
+                    link.rel = 'icon';
+                    link.href = faviconData;
+                    document.head.appendChild(link);
+                }
+
+                function updateFileLabels() {
+                    document.querySelectorAll('.erp-customizer-file').forEach(function (input) {
+                        const label = document.querySelector('[data-file-name-for="' + input.id + '"]');
+                        if (!label) {
+                            return;
+                        }
+
+                        if (input.files && input.files[0]) {
+                            label.textContent = input.files[0].name;
+                        } else if (normalizedLanguage === 'ar') {
+                            label.textContent = 'لم يتم اختيار ملف';
+                        } else if (normalizedLanguage === 'fr') {
+                            label.textContent = 'Aucun fichier selectionne';
+                        } else {
+                            label.textContent = 'No file selected';
+                        }
+                    });
+                }
+
+                function positionCustomizerPanel() {
+                    document.querySelectorAll('.erp-customizer.is-open .erp-customizer-panel').forEach(function (panel) {
+                        panel.style.left = '';
+                        panel.style.right = '';
+
+                        const rect = panel.getBoundingClientRect();
+                        const viewportPadding = 8;
+
+                        if (rect.left < viewportPadding) {
+                            panel.style.left = (viewportPadding - rect.left) + 'px';
+                        }
+
+                        if (rect.right > window.innerWidth - viewportPadding) {
+                            panel.style.left = ((window.innerWidth - viewportPadding) - rect.right) + 'px';
+                        }
+                    });
+                }
+
+                function removeLegacyProductReferences() {
+                    document.querySelectorAll('a[href*="mayan-edms"], a[href*="forum.mayan"], a[href*="docs.mayan"], a[href*="/license"], a[href*="/dependencies/licenses"], a[href*="/web_links"], a[href*="/linking"]').forEach(function (anchor) {
+                        const listItem = anchor.closest('li');
+                        if (listItem) {
+                            listItem.remove();
+                        } else {
+                            anchor.remove();
+                        }
+                    });
+
+                    document.querySelectorAll('#main-menu-footer-copyright').forEach(function (element) {
+                        element.remove();
+                    });
+
+                    document.querySelectorAll('a, button, .panel-title, .list-group-item').forEach(function (element) {
+                        const text = element.textContent.trim();
+                        if (/^الرخص$|^الترخيص$|^التراخيص$|^الارتباطات$|^ارتباطات$|^License$|^Licenses$|^Dependencies licenses$|^Links$/i.test(text)) {
+                            const listItem = element.closest('li');
+                            const panel = element.closest('.panel');
+                            if (listItem) {
+                                listItem.remove();
+                            } else if (panel && panel.closest('#accordion-sidebar')) {
+                                panel.remove();
+                            } else {
+                                element.remove();
+                            }
+                        }
+                    });
+                }
+
+                function moveSystemMenuToSidebar() {
+                    const sidebar = document.querySelector('#accordion-sidebar');
+                    const systemDropdown = Array.from(document.querySelectorAll('#navbar .dropdown')).find(function (item) {
+                        const toggle = item.querySelector('.dropdown-toggle');
+                        const title = (toggle && toggle.getAttribute('title') || '').trim().toLowerCase();
+                        return title === 'system' || title === 'النظام' || title === 'systeme';
+                    });
+
+                    if (!sidebar || !systemDropdown || sidebar.querySelector('[data-erp-sidebar-system="true"]')) {
+                        if (systemDropdown) {
+                            systemDropdown.remove();
+                        }
+                        return;
+                    }
+
+                    const links = Array.from(systemDropdown.querySelectorAll('.dropdown-menu a')).filter(function (anchor) {
+                        return anchor.getAttribute('href') && anchor.textContent.trim();
+                    });
+
+                    if (!links.length) {
+                        systemDropdown.remove();
+                        return;
+                    }
+
+                    const panel = document.createElement('div');
+                    panel.className = 'panel panel-default';
+                    panel.setAttribute('data-erp-sidebar-system', 'true');
+                    panel.innerHTML = [
+                        '<div class="panel-heading" id="heading-erp-system" role="tab">',
+                        '<h4 class="panel-title">',
+                        '<a aria-controls="collapse-erp-system" aria-expanded="false" class="non-ajax collapsed" data-parent="#accordion-sidebar" data-toggle="collapse" href="#collapse-erp-system" role="button">',
+                        '<div class="pull-left">' + renderErpIcon('settings') + '<span data-i18n-key="Setup">Setup</span></div>',
+                        '<div class="accordion-indicator pull-right"><span class="caret"></span></div>',
+                        '<div class="clearfix"></div>',
+                        '</a>',
+                        '</h4>',
+                        '</div>',
+                        '<div aria-labelledby="heading-erp-system" class="panel-collapse collapse" id="collapse-erp-system" role="tabpanel">',
+                        '<div class="panel-body"><ul class="list-unstyled"></ul></div>',
+                        '</div>'
+                    ].join('');
+
+                    const list = panel.querySelector('ul');
+                    links.forEach(function (anchor) {
+                        const text = anchor.textContent.trim();
+                        const href = anchor.getAttribute('href') || '';
+                        const blockedText = /knowledge base|support|about this|license|licenses|dependencies|links|linking|الرخص|الرخصة|التراخيص|الارتباطات|ارتباطات|حول البرنامج/i;
+                        const blockedHref = /license|licenses|dependencies|linking|about|support|mayan|forum|docs/i;
+                        if (!text || blockedText.test(text) || blockedHref.test(href)) {
+                            return;
+                        }
+
+                        const li = document.createElement('li');
+                        const clone = anchor.cloneNode(true);
+                        clone.classList.add('a-main-menu-accordion-link');
+                        li.appendChild(clone);
+                        list.appendChild(li);
+                    });
+
+                    if (list.children.length) {
+                        const footer = sidebar.querySelector('#main-menu-footer');
+                        sidebar.insertBefore(panel, footer || null);
+                    }
+
+                    systemDropdown.remove();
+                }
+
+                function moveLogoutToSidebarFooter() {
+                    const footer = document.querySelector('#main-menu-footer .text-center');
+                    const logoutForm = document.querySelector('#navbar form[action*="/authentication/logout/"]');
+
+                    if (!footer || !logoutForm || footer.querySelector('form[action*="/authentication/logout/"]')) {
+                        return;
+                    }
+
+                    const clone = logoutForm.cloneNode(true);
+                    const button = clone.querySelector('button');
+                    clone.classList.add('erp-sidebar-logout-form');
+                    clone.style.display = 'block';
+                    clone.style.margin = '0';
+
+                    if (button) {
+                        button.className = 'erp-sidebar-logout';
+                        button.innerHTML = '<span class="erp-icon erp-icon-sm"><svg fill="none" viewBox="0 0 24 24"><path d="M10 17l5-5-5-5"></path><path d="M15 12H3"></path><path d="M21 19V5a2 2 0 0 0-2-2h-5"></path></svg></span><span data-i18n-key="Logout">Logout</span>';
+                    }
+
+                    footer.insertBefore(clone, footer.firstChild);
+                    logoutForm.closest('li')?.remove();
+                }
+
+                const erpIconSvg = {
+                    'about': '<circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path>',
+                    'archive': '<path d="M21 8v13H3V8"></path><path d="M1 3h22v5H1z"></path><path d="M10 12h4"></path>',
+                    'bell': '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path>',
+                    'book': '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"></path>',
+                    'box': '<path d="m21 16-9 5-9-5V8l9-5 9 5z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path>',
+                    'calendar-check': '<path d="M8 2v4"></path><path d="M16 2v4"></path><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M3 10h18"></path><path d="m9 16 2 2 4-4"></path>',
+                    'chevron-down': '<path d="m6 9 6 6 6-6"></path>',
+                    'chevron-left': '<path d="m15 18-6-6 6-6"></path>',
+                    'chevron-right': '<path d="m9 18 6-6-6-6"></path>',
+                    'circle-user': '<circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="10" r="3"></circle><path d="M7 20c1.2-3 8.8-3 10 0"></path>',
+                    'clock': '<circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path>',
+                    'copy': '<rect x="9" y="9" width="13" height="13" rx="2"></rect><rect x="2" y="2" width="13" height="13" rx="2"></rect>',
+                    'cpu': '<rect x="6" y="6" width="12" height="12" rx="2"></rect><path d="M9 2v4"></path><path d="M15 2v4"></path><path d="M9 18v4"></path><path d="M15 18v4"></path><path d="M2 9h4"></path><path d="M2 15h4"></path><path d="M18 9h4"></path><path d="M18 15h4"></path>',
+                    'database': '<ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5"></path><path d="M3 12c0 1.7 4 3 9 3s9-1.3 9-3"></path>',
+                    'download': '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="M7 10l5 5 5-5"></path><path d="M12 15V3"></path>',
+                    'file-text': '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6"></path><path d="M16 13H8"></path><path d="M16 17H8"></path><path d="M10 9H8"></path>',
+                    'globe': '<circle cx="12" cy="12" r="10"></circle><path d="M2 12h20"></path><path d="M12 2a15.3 15.3 0 0 1 0 20"></path><path d="M12 2a15.3 15.3 0 0 0 0 20"></path>',
+                    'home': '<path d="m3 10 9-7 9 7"></path><path d="M5 10v10h14V10"></path><path d="M9 20v-6h6v6"></path>',
+                    'layout-list': '<path d="M8 6h13"></path><path d="M8 12h13"></path><path d="M8 18h13"></path><path d="M3 6h.01"></path><path d="M3 12h.01"></path><path d="M3 18h.01"></path>',
+                    'list': '<path d="M8 6h13"></path><path d="M8 12h13"></path><path d="M8 18h13"></path><path d="M3 6h.01"></path><path d="M3 12h.01"></path><path d="M3 18h.01"></path>',
+                    'menu': '<path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h16"></path>',
+                    'message': '<path d="M21 15a4 4 0 0 1-4 4H7l-4 4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"></path>',
+                    'plus-circle': '<circle cx="12" cy="12" r="10"></circle><path d="M12 8v8"></path><path d="M8 12h8"></path>',
+                    'refresh': '<path d="M21 12a9 9 0 0 0-15-6.7L3 8"></path><path d="M3 3v5h5"></path><path d="M3 12a9 9 0 0 0 15 6.7L21 16"></path><path d="M16 16h5v5"></path>',
+                    'search': '<circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path>',
+                    'search-plus': '<circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path><path d="M11 8v6"></path><path d="M8 11h6"></path>',
+                    'settings': '<path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5z"></path><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1A2 2 0 1 1 4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7A2 2 0 1 1 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3h.1A1.7 1.7 0 0 0 10 3V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.6h.1a1.7 1.7 0 0 0 1.9-.3l.1-.1A2 2 0 1 1 19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9v.1a1.7 1.7 0 0 0 1.6 1h.1a2 2 0 1 1 0 4H21a1.7 1.7 0 0 0-1.6 1z"></path>',
+                    'share': '<circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="M8.6 10.5 15.4 6.5"></path><path d="M8.6 13.5 15.4 17.5"></path>',
+                    'star': '<path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21 7 14.2 2 9.3l6.9-1z"></path>',
+                    'tag': '<path d="M20.6 13.1 13 20.7a2 2 0 0 1-2.8 0L3 13.5V3h10.5l7.1 7.1a2 2 0 0 1 0 3z"></path><path d="M7.5 7.5h.01"></path>',
+                    'trash': '<path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M19 6l-1 14H6L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path>',
+                    'upload': '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="M17 8l-5-5-5 5"></path><path d="M12 3v12"></path>',
+                    'wrench': '<path d="M14.7 6.3a4 4 0 0 0-5 5L3 18l3 3 6.7-6.7a4 4 0 0 0 5-5l-2.4 2.4-3-3z"></path>'
+                };
+
+                const faToErpIcon = {
+                    'address-card': 'circle-user',
+                    'angle-double-left': 'chevron-left',
+                    'bars': 'menu',
+                    'bell': 'bell',
+                    'book': 'book',
+                    'book-open-reader': 'book',
+                    'briefcase': 'archive',
+                    'certificate': 'file-text',
+                    'check-square': 'calendar-check',
+                    'clock': 'clock',
+                    'cog': 'settings',
+                    'columns': 'archive',
+                    'comment': 'message',
+                    'copy': 'copy',
+                    'database': 'database',
+                    'file': 'file-text',
+                    'folder': 'archive',
+                    'home': 'home',
+                    'info': 'about',
+                    'list': 'list',
+                    'microchip': 'cpu',
+                    'plus': 'plus-circle',
+                    'search': 'search',
+                    'search-plus': 'search-plus',
+                    'shopping-cart': 'calendar-check',
+                    'sign-out-alt': 'chevron-left',
+                    'star': 'star',
+                    'sync': 'refresh',
+                    'tag': 'tag',
+                    'th-list': 'layout-list',
+                    'trash': 'trash',
+                    'upload': 'upload',
+                    'user-circle': 'circle-user',
+                    'wrench': 'wrench'
+                };
+
+                function renderErpIcon(name, extraClass) {
+                    const paths = erpIconSvg[name] || erpIconSvg['file-text'];
+                    return '<span class="erp-icon ' + (extraClass || '') + '" data-erp-replaced-icon="' + name + '"><svg fill="none" viewBox="0 0 24 24">' + paths + '</svg></span>';
+                }
+
+                function injectExternalShareAction() {
+                    const path = window.location.pathname;
+                    const documentMatch = path.match(/^\/documents\/(\d+)\//);
+                    const cabinetMatch = path.match(/^\/cabinets\/(\d+)\//);
+                    let targetType = null;
+                    let targetId = null;
+
+                    if (documentMatch) {
+                        targetType = 'document';
+                        targetId = documentMatch[1];
+                    } else if (cabinetMatch) {
+                        targetType = 'cabinet';
+                        targetId = cabinetMatch[1];
+                    }
+
+                    if (!targetType || document.querySelector('[data-erp-external-share-action="true"]')) {
+                        return;
+                    }
+
+                    const host = document.querySelector('#ajax-header') || document.querySelector('#ajax-content');
+                    if (!host) {
+                        return;
+                    }
+
+                    const bar = document.createElement('div');
+                    bar.className = 'erp-share-actionbar';
+                    bar.setAttribute('data-erp-external-share-action', 'true');
+                    bar.innerHTML = '<a class="erp-share-action" href="/external_sharing/manage/' + targetType + '/' + targetId + '/">' + renderErpIcon('share', 'erp-icon-sm') + '<span data-i18n-key="External sharing">External sharing</span></a>';
+
+                    host.insertBefore(bar, host.firstChild);
+                }
+
+                function injectExternalShareBulkAction() {
+                    const path = window.location.pathname;
+                    const isDocumentList = /^\/documents(?:\/|$)/.test(path);
+                    const isCabinetList = /^\/cabinets(?:\/|$)/.test(path);
+                    const targetType = isDocumentList ? 'document' : (isCabinetList ? 'cabinet' : null);
+                    const menu = document.querySelector('#multi-item-actions .dropdown-menu');
+
+                    document.querySelectorAll('[data-erp-external-share-bulk-action="true"]').forEach(function (item) {
+                        item.remove();
+                    });
+
+                    if (!targetType || !menu) {
+                        return;
+                    }
+
+                    const checkedBoxes = Array.from(document.querySelectorAll('.form-multi-object-action-checkbox')).filter(function (checkbox) {
+                        return checkbox.checked && /^pk_\d+$/.test(checkbox.name || '');
+                    });
+
+                    if (checkedBoxes.length !== 1) {
+                        return;
+                    }
+
+                    const targetId = checkedBoxes[0].name.replace(/^pk_/, '');
+                    const item = document.createElement('li');
+                    item.setAttribute('data-erp-external-share-bulk-action', 'true');
+                    item.innerHTML = '<a class="btn-sm btn-multi-item-action" href="/external_sharing/manage/' + targetType + '/' + targetId + '/">' + renderErpIcon('share', 'erp-icon-sm') + '<span data-i18n-key="External sharing">External sharing</span></a>';
+                    menu.insertBefore(item, menu.firstChild);
+                }
+
+                function enhanceHorizontalToolCards() {
+                    const board = Array.from(document.querySelectorAll('#ajax-content .well.center-block, #appearance-main-viewport .well.center-block')).find(function (candidate) {
+                        if (candidate.dataset.erpToolsEnhanced === 'true') {
+                            return false;
+                        }
+
+                        return candidate.querySelectorAll('.row > [class*="col-"] > a.btn.btn-primary.btn-lg.btn-block').length >= 6;
+                    });
+
+                    if (!board || board.dataset.erpToolsEnhanced === 'true') {
+                        return;
+                    }
+
+                    const row = board.querySelector(':scope > .row, .row');
+                    const cards = row ? Array.from(row.querySelectorAll(':scope > [class*="col-"] > a.btn.btn-primary.btn-lg.btn-block, [class*="col-"] > a.btn.btn-primary.btn-lg.btn-block')) : [];
+                    if (!row || cards.length < 6) {
+                        return;
+                    }
+
+                    board.classList.add('erp-tools-board');
+                    board.dataset.erpToolsEnhanced = 'true';
+
+                    const toolbar = document.createElement('div');
+                    toolbar.className = 'erp-tools-toolbar';
+                    toolbar.innerHTML = [
+                        '<select class="erp-tools-filter" aria-label="Tool category">',
+                        '<option data-i18n-key="All categories">All categories</option>',
+                        '</select>',
+                        '<input class="erp-tools-search" type="search" aria-label="Search tools" data-i18n-placeholder="Search tools" placeholder="Search tools">'
+                    ].join('');
+                    board.insertBefore(toolbar, row);
+
+                    function sectionTitle(text, iconName) {
+                        const title = document.createElement('div');
+                        title.className = 'erp-tools-section-title';
+                        title.innerHTML = '<span data-i18n-key="' + text + '">' + text + '</span>' + renderErpIcon(iconName || 'star', 'erp-icon-sm');
+                        return title;
+                    }
+
+                    row.insertBefore(sectionTitle('Most used', 'star'), row.firstChild);
+
+                    cards.forEach(function (card, index) {
+                        const column = card.parentElement;
+                        const originalIcon = card.querySelector(':scope > span:first-child');
+                        const text = Array.from(card.childNodes).map(function (node) {
+                            return node.nodeType === Node.TEXT_NODE ? node.nodeValue : '';
+                        }).join(' ').replace(/\s+/g, ' ').trim() || card.textContent.replace(/\s+/g, ' ').trim();
+                        const iconHtml = originalIcon ? originalIcon.innerHTML : renderErpIcon('settings');
+                        const subtitle = normalizedLanguage === 'ar' ? 'إدارة وتشغيل أدوات النظام' : (normalizedLanguage === 'fr' ? 'Gestion des outils systeme' : 'Manage system tools');
+
+                        card.classList.add('erp-tools-card');
+                        column.classList.add(index < 5 ? 'erp-tools-featured' : 'erp-tools-compact');
+                        card.innerHTML = [
+                            '<span class="erp-tool-icon-shell">' + iconHtml + '</span>',
+                            '<span class="erp-tool-copy">',
+                            '<span class="erp-tool-title">' + text + '</span>',
+                            '<span class="erp-tool-subtitle">' + subtitle + '</span>',
+                            '</span>',
+                            '<span class="erp-tool-arrow">‹</span>'
+                        ].join('');
+
+                        if (index === 5) {
+                            row.insertBefore(sectionTitle('System management', 'settings'), column);
+                        }
+
+                        if (index === 20) {
+                            row.insertBefore(sectionTitle('Advanced tools', 'archive'), column);
+                        }
+                    });
+                }
+
+                function iconNameFromElement(element) {
+                    const dataIcon = element.getAttribute('data-icon');
+                    if (dataIcon && faToErpIcon[dataIcon]) {
+                        return faToErpIcon[dataIcon];
+                    }
+
+                    for (const className of Array.from(element.classList || [])) {
+                        if (className.indexOf('fa-') === 0) {
+                            const faName = className.replace(/^fa-/, '');
+                            if (faToErpIcon[faName]) {
+                                return faToErpIcon[faName];
+                            }
+                        }
+                    }
+
+                    return null;
+                }
+
+                function applyErpNextIcons() {
+                    const selectors = [
+                        'i.fa', 'i.fas', 'i.far', 'i.fab',
+                        'svg.svg-inline--fa'
+                    ].join(',');
+
+                    document.querySelectorAll(selectors).forEach(function (element) {
+                        if (element.closest('.erp-language-switcher') || element.closest('.erp-icon') || element.dataset.erpIconProcessed === 'true') {
+                            return;
+                        }
+
+                        const iconName = iconNameFromElement(element);
+                        if (!iconName) {
+                            return;
+                        }
+
+                        const wrapper = document.createElement('span');
+                        wrapper.innerHTML = renderErpIcon(iconName);
+                        const replacement = wrapper.firstElementChild;
+                        replacement.classList.toggle('fa-fw', element.classList.contains('fa-fw'));
+                        element.dataset.erpIconProcessed = 'true';
+                        element.replaceWith(replacement);
+                    });
+                }
+
+                const language = getCookie(cookieName) || window.localStorage.getItem(cookieName) || document.documentElement.lang || 'en';
+                const normalizedLanguage = language.toLowerCase().split('-')[0];
+
+                document.documentElement.lang = normalizedLanguage;
+                document.documentElement.dir = rtlLanguages.indexOf(normalizedLanguage) === -1 ? 'ltr' : 'rtl';
+                mountLanguageSwitcher();
+                applyCairoFont();
+                applyBranding();
+                applyFavicon();
+                updateFileLabels();
+                removeLegacyProductReferences();
+                moveSystemMenuToSidebar();
+                mountCustomizer();
+                moveLogoutToSidebarFooter();
+                applyErpNextIcons();
+                enhanceHorizontalToolCards();
+                injectExternalShareAction();
+                injectExternalShareBulkAction();
+                applyClientTranslations(normalizedLanguage);
+                refreshLanguageSwitcher(normalizedLanguage);
+
+                document.addEventListener('click', function (event) {
+                    const languageButton = event.target.closest('.erp-language-button');
+                    const toggleButton = event.target.closest('.erp-language-toggle');
+                    const customizerToggle = event.target.closest('.erp-customizer-toggle');
+                    const customizerClose = event.target.closest('[data-customizer-close]');
+                    const customizerReset = event.target.closest('[data-customizer-reset]');
+                    const customizerPanel = event.target.closest('.erp-customizer-panel');
+                    const multiItemToggle = event.target.closest('#multi-item-actions .dropdown-toggle');
+
+                    if (multiItemToggle) {
+                        window.setTimeout(function () {
+                            injectExternalShareBulkAction();
+                            applyClientTranslations(normalizedLanguage);
+                        }, 0);
+                        window.setTimeout(function () {
+                            injectExternalShareBulkAction();
+                            applyClientTranslations(normalizedLanguage);
+                        }, 80);
+                    }
+
+                    if (languageButton) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        setLanguage(languageButton.getAttribute('data-language-code'));
+                        return;
+                    }
+
+                    if (toggleButton) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        const switcher = toggleButton.closest('.erp-language-switcher');
+                        if (switcher) {
+                            switcher.classList.toggle('is-open');
+                        }
+                        document.querySelectorAll('.erp-customizer.is-open').forEach(function (customizer) {
+                            customizer.classList.remove('is-open');
+                        });
+                        return;
+                    }
+
+                    if (customizerToggle) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        const customizer = customizerToggle.closest('.erp-customizer');
+                        if (customizer) {
+                            customizer.classList.toggle('is-open');
+                        }
+                        updateFileLabels();
+                        window.setTimeout(positionCustomizerPanel, 0);
+                        document.querySelectorAll('.erp-language-switcher.is-open').forEach(function (switcher) {
+                            switcher.classList.remove('is-open');
+                        });
+                        return;
+                    }
+
+                    if (customizerClose) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        document.querySelectorAll('.erp-customizer.is-open').forEach(function (customizer) {
+                            customizer.classList.remove('is-open');
+                        });
+                        return;
+                    }
+
+                    if (customizerReset) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        resetBranding();
+                        return;
+                    }
+
+                    if (customizerPanel) {
+                        event.stopPropagation();
+                        return;
+                    }
+
+                    document.querySelectorAll('.erp-language-switcher.is-open').forEach(function (switcher) {
+                        switcher.classList.remove('is-open');
+                    });
+                    document.querySelectorAll('.erp-customizer.is-open').forEach(function (customizer) {
+                        customizer.classList.remove('is-open');
+                    });
+                });
+
+                document.addEventListener('input', function (event) {
+                    if (event.target.matches('#erp-brand-title-input')) {
+                        window.localStorage.setItem('edms_brand_title', event.target.value.trim());
+                        applyBranding();
+                    }
+                });
+
+                document.addEventListener('change', function (event) {
+                    if (event.target.matches('.form-multi-object-action-checkbox')) {
+                        injectExternalShareBulkAction();
+                        applyClientTranslations(normalizedLanguage);
+                    }
+
+                    if (event.target.matches('#erp-logo-input')) {
+                        updateFileLabels();
+                        resizeImageFile(event.target.files[0], {
+                            maxHeight: 256,
+                            maxWidth: 256,
+                            type: 'image/png'
+                        }, function (dataUrl) {
+                            if (setStoredImage('edms_brand_logo', dataUrl, 'erp-logo-input')) {
+                                applyBranding();
+                            }
+                        });
+                    }
+
+                    if (event.target.matches('#erp-cover-input')) {
+                        updateFileLabels();
+                        resizeImageFile(event.target.files[0], {
+                            maxHeight: 1000,
+                            maxWidth: 1600,
+                            quality: 0.82,
+                            type: 'image/jpeg'
+                        }, function (dataUrl) {
+                            setStoredImage('edms_login_cover_image', dataUrl, 'erp-cover-input');
+                        });
+                    }
+
+                    if (event.target.matches('#erp-favicon-input')) {
+                        updateFileLabels();
+                        resizeImageFile(event.target.files[0], {
+                            maxHeight: 64,
+                            maxWidth: 64,
+                            type: 'image/png'
+                        }, function (dataUrl) {
+                            if (setStoredImage('edms_favicon', dataUrl, 'erp-favicon-input')) {
+                                applyFavicon();
+                            }
+                        });
+                    }
+                });
+
+                window.addEventListener('resize', function () {
+                    positionCustomizerPanel();
+                });
+
+                let enhancementTimer;
+                let enhancementObserverPaused = false;
+
+                function runEnhancements() {
+                    enhancementObserverPaused = true;
+
+                    try {
+                        mountLanguageSwitcher();
+                        applyCairoFont();
+                        applyBranding();
+                        applyFavicon();
+                        updateFileLabels();
+                        removeLegacyProductReferences();
+                        moveSystemMenuToSidebar();
+                        mountCustomizer();
+                        moveLogoutToSidebarFooter();
+                        applyErpNextIcons();
+                        enhanceHorizontalToolCards();
+                        injectExternalShareAction();
+                        injectExternalShareBulkAction();
+                        applyClientTranslations(normalizedLanguage);
+                        refreshLanguageSwitcher(normalizedLanguage);
+                    } finally {
+                        window.setTimeout(function () {
+                            enhancementObserverPaused = false;
+                        }, 120);
+                    }
+                }
+
+                function scheduleEnhancements() {
+                    if (enhancementObserverPaused) {
+                        return;
+                    }
+
+                    window.clearTimeout(enhancementTimer);
+                    enhancementTimer = window.setTimeout(function () {
+                        runEnhancements();
+                    }, 150);
+                }
+
+                const observer = new MutationObserver(function (mutations) {
+                    if (enhancementObserverPaused) {
+                        return;
+                    }
+
+                    const shouldEnhance = mutations.some(function (mutation) {
+                        const target = mutation.target;
+                        return target && target.closest && (
+                            target.closest('#ajax-content') ||
+                            target.closest('#ajax-header') ||
+                            target.closest('#menu-main')
+                        );
+                    });
+
+                    if (shouldEnhance) {
+                        scheduleEnhancements();
+                    }
+                });
+
+                ['#ajax-content', '#ajax-header', '#menu-main'].forEach(function (selector) {
+                    const element = document.querySelector(selector);
+                    if (element) {
+                        observer.observe(element, {
+                            childList: true,
+                            subtree: true
+                        });
+                    }
+                });
+
+                document.addEventListener('DOMContentLoaded', function () {
+                    runEnhancements();
+                });
+            }());
+        </script>
+    </body>
+</html>
+{% endspaceless %}

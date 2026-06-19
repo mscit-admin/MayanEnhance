@@ -11,65 +11,752 @@
 
 {% block project_name %}{% endblock %}
 
-{% block content_plain %}
-    {% appearance_app_templates template_name='login_content' %}
+{% block stylesheets %}
+    {{ block.super }}
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --login-font: "Cairo", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            --login-bg: #f6f7f9;
+            --login-card: #ffffff;
+            --login-border: #d9e0e8;
+            --login-text: #1f272e;
+            --login-muted: #687178;
+            --login-soft: #eef3f8;
+            --login-blue: #2490ef;
+            --login-blue-dark: #1677c8;
+            --login-green: #2f9e75;
+            --login-shadow: 0 18px 60px rgba(31, 39, 46, 0.16);
+        }
 
-    <div class="row">
-        <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{% trans 'Sign in' %}</h3>
+        html,
+        body,
+        body * {
+            font-family: var(--login-font) !important;
+            letter-spacing: 0 !important;
+        }
+
+        .fa,
+        .fa::before,
+        .fas,
+        .fas::before,
+        .far,
+        .far::before,
+        .fab,
+        .fab::before,
+        .svg-inline--fa,
+        .svg-inline--fa * {
+            font-family: "Font Awesome 5 Free", "Font Awesome 5 Brands" !important;
+        }
+
+        #body-plain {
+            background: var(--login-bg) !important;
+            color: var(--login-text);
+            min-height: 100vh;
+        }
+
+        .login-shell {
+            display: grid;
+            grid-template-columns: minmax(420px, 0.95fr) minmax(360px, 1.05fr);
+            min-height: 100vh;
+        }
+
+        .login-cover {
+            background:
+                linear-gradient(120deg, rgba(24, 40, 58, 0.88), rgba(36, 144, 239, 0.72)),
+                linear-gradient(45deg, #102033, #2f9e75);
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            padding: 44px;
+            position: relative;
+        }
+
+        .login-cover::before,
+        .login-cover::after {
+            background: rgba(255, 255, 255, 0.11);
+            content: "";
+            position: absolute;
+            transform: rotate(-18deg);
+        }
+
+        .login-cover::before {
+            height: 260px;
+            left: -70px;
+            top: 110px;
+            width: 520px;
+        }
+
+        .login-cover::after {
+            bottom: 58px;
+            height: 150px;
+            right: -50px;
+            width: 360px;
+        }
+
+        .login-cover-inner {
+            max-width: 560px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-brand {
+            align-items: center;
+            display: inline-flex;
+            font-size: 18px;
+            font-weight: 800;
+            gap: 10px;
+            margin-bottom: 80px;
+        }
+
+        .login-brand-logo-image {
+            border-radius: 7px;
+            height: 44px;
+            object-fit: contain;
+            width: 44px;
+        }
+
+        .login-brand-title {
+            display: block;
+            line-height: 1.2;
+        }
+
+        .login-kicker {
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: 999px;
+            display: inline-flex;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            padding: 7px 12px;
+        }
+
+        .login-title {
+            font-size: clamp(34px, 4vw, 58px);
+            font-weight: 800;
+            line-height: 1.08;
+            margin: 0 0 18px;
+        }
+
+        .login-copy {
+            color: rgba(255, 255, 255, 0.84);
+            font-size: 15px;
+            line-height: 1.9;
+            margin: 0;
+            max-width: 480px;
+        }
+
+        .login-cover-meta {
+            display: grid;
+            gap: 12px;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            margin-top: 52px;
+            max-width: 520px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-stat {
+            border-top: 1px solid rgba(255, 255, 255, 0.24);
+            padding-top: 14px;
+        }
+
+        .login-stat strong {
+            display: block;
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .login-stat span {
+            color: rgba(255, 255, 255, 0.72);
+            font-size: 12px;
+        }
+
+        .login-panel-wrap {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .login-panel {
+            background: var(--login-card);
+            border: 1px solid var(--login-border);
+            border-radius: 8px;
+            box-shadow: var(--login-shadow);
+            max-width: 460px;
+            padding: 30px;
+            width: 100%;
+        }
+
+        .login-toolbar {
+            align-items: center;
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+            margin-bottom: 26px;
+        }
+
+        .login-language {
+            position: relative;
+        }
+
+        .login-language-toggle,
+        .login-cover-button,
+        .login-cover-option {
+            align-items: center;
+            background: #ffffff;
+            border: 1px solid var(--login-border);
+            border-radius: 6px;
+            color: var(--login-text);
+            display: inline-flex;
+            font-weight: 700;
+            gap: 8px;
+            height: 36px;
+            padding: 0 12px;
+        }
+
+        .login-language-menu,
+        .login-cover-menu {
+            background: #ffffff;
+            border: 1px solid var(--login-border);
+            border-radius: 6px;
+            box-shadow: 0 12px 36px rgba(31, 39, 46, 0.14);
+            display: none;
+            min-width: 150px;
+            padding: 6px;
+            position: absolute;
+            right: 0;
+            top: calc(100% + 6px);
+            z-index: 20;
+        }
+
+        .login-language.is-open .login-language-menu,
+        .login-cover-picker.is-open .login-cover-menu {
+            display: grid;
+            gap: 4px;
+        }
+
+        .login-language-option,
+        .login-cover-choice {
+            background: transparent;
+            border: 0;
+            border-radius: 5px;
+            color: var(--login-muted);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 9px 10px;
+            text-align: left;
+            width: 100%;
+        }
+
+        .login-language-option:hover,
+        .login-language-option.is-active,
+        .login-cover-choice:hover,
+        .login-cover-choice.is-active {
+            background: var(--login-soft);
+            color: var(--login-text);
+        }
+
+        .login-cover-picker {
+            position: relative;
+        }
+
+        .login-heading {
+            margin-bottom: 24px;
+        }
+
+        .login-heading h1 {
+            color: var(--login-text);
+            font-size: 28px;
+            font-weight: 800;
+            line-height: 1.25;
+            margin: 0 0 8px;
+        }
+
+        .login-heading p {
+            color: var(--login-muted);
+            font-size: 14px;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .login-panel .panel,
+        .login-panel .panel-primary,
+        .login-panel .panel-body {
+            background: transparent !important;
+            border: 0 !important;
+            box-shadow: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .login-panel .panel-heading {
+            display: none !important;
+        }
+
+        .login-panel label {
+            color: var(--login-text);
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+
+        .login-panel .form-control {
+            background: #ffffff;
+            border: 1px solid var(--login-border);
+            border-radius: 6px;
+            box-shadow: none;
+            color: var(--login-text);
+            height: 42px;
+            padding: 8px 12px;
+        }
+
+        .login-panel .form-control:focus {
+            border-color: var(--login-blue);
+            box-shadow: 0 0 0 3px rgba(36, 144, 239, 0.14);
+        }
+
+        .login-panel .checkbox,
+        .login-panel .help-block {
+            color: var(--login-muted);
+            font-size: 12px;
+        }
+
+        .login-submit-row {
+            margin-top: 22px;
+        }
+
+        .login-panel .btn-primary,
+        .login-submit-row .btn-primary {
+            align-items: center;
+            background: var(--login-blue) !important;
+            border: 1px solid var(--login-blue) !important;
+            border-radius: 6px;
+            box-shadow: none;
+            color: #ffffff !important;
+            display: inline-flex;
+            font-size: 14px;
+            font-weight: 800;
+            gap: 8px;
+            height: 42px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .login-panel .btn-primary:hover,
+        .login-panel .btn-primary:focus {
+            background: var(--login-blue-dark) !important;
+            border-color: var(--login-blue-dark) !important;
+        }
+
+        .login-links {
+            border-top: 1px solid var(--login-border);
+            margin-top: 22px;
+            padding-top: 18px;
+            text-align: center;
+        }
+
+        .login-links a {
+            color: var(--login-blue);
+            font-weight: 700;
+        }
+
+        body.login-cover-sage .login-cover {
+            background:
+                linear-gradient(120deg, rgba(21, 55, 49, 0.9), rgba(47, 158, 117, 0.72)),
+                linear-gradient(45deg, #173731, #d8b45a);
+        }
+
+        body.login-cover-ink .login-cover {
+            background:
+                linear-gradient(120deg, rgba(21, 28, 38, 0.92), rgba(74, 93, 116, 0.74)),
+                linear-gradient(45deg, #151c26, #7a8fa8);
+        }
+
+        body.login-cover-ruby .login-cover {
+            background:
+                linear-gradient(120deg, rgba(70, 26, 45, 0.9), rgba(189, 73, 85, 0.68)),
+                linear-gradient(45deg, #461a2d, #d9a657);
+        }
+
+        html[dir="rtl"] body {
+            direction: rtl;
+            text-align: right;
+        }
+
+        html[dir="rtl"] .login-shell {
+            direction: rtl;
+        }
+
+        html[dir="rtl"] .login-language-menu,
+        html[dir="rtl"] .login-cover-menu {
+            left: 0;
+            right: auto;
+        }
+
+        html[dir="rtl"] .login-language-option,
+        html[dir="rtl"] .login-cover-choice {
+            text-align: right;
+        }
+
+        html[dir="rtl"] .login-links .pull-right {
+            float: none !important;
+        }
+
+        @media (max-width: 920px) {
+            .login-shell {
+                grid-template-columns: 1fr;
+            }
+
+            .login-cover {
+                min-height: 360px;
+                padding: 32px;
+            }
+
+            .login-brand {
+                margin-bottom: 52px;
+            }
+
+            .login-panel-wrap {
+                padding: 24px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .login-cover-meta {
+                grid-template-columns: 1fr;
+            }
+
+            .login-toolbar {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .login-language-toggle,
+            .login-cover-button {
+                justify-content: center;
+                width: 100%;
+            }
+
+            .login-panel {
+                padding: 22px;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="login-shell" data-login-shell>
+        <section class="login-cover" aria-label="{% trans 'Document management workspace' %}">
+            <div class="login-cover-inner">
+                <div class="login-brand">
+                    <span>EDMS</span>
                 </div>
-                <div class="panel-body">
-                    <div class="content login">
-                        <form action="." method="post" class="form login">
-                            {% csrf_token %}
-                            <div class="group wat-cf">
-                                {{ wizard.management_form }}
+                <span class="login-kicker" data-i18n-key="Secure document workspace">{% trans 'Secure document workspace' %}</span>
+                <h1 class="login-title" data-i18n-key="Manage documents with clarity">{% trans 'Manage documents with clarity' %}</h1>
+                <p class="login-copy" data-i18n-key="Access files, workflows, approvals, and archives from one calm workspace.">{% trans 'Access files, workflows, approvals, and archives from one calm workspace.' %}</p>
+            </div>
 
-                                {% if wizard.form.forms %}
-                                    {{ wizard.form.management_form }}
-
-                                    {% with wizard.form as form %}
-                                    {% with 'true' as form_display_mode_table %}
-                                        {% include 'appearance/generic_form_instance.html' %}
-                                    {% endwith %}
-                                    {% endwith %}
-                                {% else %}
-                                    {% if wizard.form %}
-                                        {% with wizard.form as form %}
-                                            {% include 'appearance/generic_form_instance.html' %}
-                                        {% endwith %}
-                                    {% else %}
-                                        {% include 'appearance/generic_form_instance.html' %}
-                                    {% endif %}
-                                {% endif %}
-
-                                <input type="hidden" name="next" value="{{ next|escape }}" />
-
-                                <div class="form-group">
-                                    <button class="btn btn-primary btn-hotkey-default" name="{% if form.prefix %}{{ form.prefix }}-submit{% else %}submit{% endif %}" type="submit">
-                                        {% if submit_icon %}
-                                            {{ submit_icon.render }}
-                                        {% else %}
-                                            <i class="fa fa-check"></i>
-                                        {% endif %}
-                                        {% if submit_label %}{{ submit_label }}{% else %}{% if form.instance %}{% trans 'Save' %}{% else %}{% trans 'Submit' %}{% endif %}{% endif %}
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-
-                        {% smart_setting global_name="AUTHENTICATION_DISABLE_PASSWORD_RESET" as setting_disable_password_reset %}
-                        {% if not setting_disable_password_reset %}
-                            <hr>
-                            <div>
-                                <a class="pull-right" href="{% url 'authentication:password_reset_view' %}">{% trans 'Forgot your password?' %}</a>
-                            </div>
-                        {% endif %}
-                    </div>
+            <div class="login-cover-meta" aria-hidden="true">
+                <div class="login-stat">
+                    <strong>24/7</strong>
+                    <span data-i18n-key="Availability">{% trans 'Availability' %}</span>
+                </div>
+                <div class="login-stat">
+                    <strong>EDMS</strong>
+                    <span data-i18n-key="Archive ready">{% trans 'Archive ready' %}</span>
+                </div>
+                <div class="login-stat">
+                    <strong>ERP</strong>
+                    <span data-i18n-key="Clean workspace">{% trans 'Clean workspace' %}</span>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <main class="login-panel-wrap">
+            <div class="login-panel">
+                <div class="login-toolbar">
+                    <div class="login-language">
+                        <button class="login-language-toggle" type="button" aria-haspopup="true">
+                            <i class="fas fa-globe"></i>
+                            <span class="login-language-current">EN</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="login-language-menu" role="menu">
+                            <button class="login-language-option" data-language-code="en" type="button">English</button>
+                            <button class="login-language-option" data-language-code="fr" type="button">Français</button>
+                            <button class="login-language-option" data-language-code="ar" type="button">العربية</button>
+                        </div>
+                    </div>
+
+                    <div class="login-cover-picker">
+                        <button class="login-cover-button" type="button" aria-haspopup="true">
+                            <i class="fas fa-image"></i>
+                            <span data-i18n-key="Cover">{% trans 'Cover' %}</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="login-cover-menu" role="menu">
+                            <button class="login-cover-choice" data-cover-code="sage" type="button" data-i18n-key="Sage">{% trans 'Sage' %}</button>
+                            <button class="login-cover-choice" data-cover-code="ink" type="button" data-i18n-key="Ink">{% trans 'Ink' %}</button>
+                            <button class="login-cover-choice" data-cover-code="ruby" type="button" data-i18n-key="Ruby">{% trans 'Ruby' %}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="login-heading">
+                    <h1 data-i18n-key="Sign in">{% trans 'Sign in' %}</h1>
+                    <p data-i18n-key="Choose your language, adjust the cover, and enter your account.">{% trans 'Choose your language, adjust the cover, and enter your account.' %}</p>
+                </div>
+
+                <div class="content login">
+                    <form action="." method="post" class="form login">
+                        {% csrf_token %}
+                        <div class="group wat-cf">
+                            {{ wizard.management_form }}
+
+                            {% if wizard.form.forms %}
+                                {{ wizard.form.management_form }}
+
+                                {% with wizard.form as form %}
+                                {% with 'true' as form_display_mode_table %}
+                                    {% include 'appearance/partials/form/body.html' %}
+                                {% endwith %}
+                                {% endwith %}
+                            {% else %}
+                                {% if wizard.form %}
+                                    {% with wizard.form as form %}
+                                        {% include 'appearance/partials/form/body.html' %}
+                                    {% endwith %}
+                                {% else %}
+                                    {% include 'appearance/partials/form/body.html' %}
+                                {% endif %}
+                            {% endif %}
+
+                            <input type="hidden" name="next" value="{{ next|escape }}" />
+
+                            <div class="form-group login-submit-row">
+                                <button class="btn btn-primary btn-hotkey-default" name="{% if form.prefix %}{{ form.prefix }}-submit{% else %}submit{% endif %}" type="submit">
+                                    <i class="fas fa-arrow-right"></i>
+                                    <span data-i18n-key="Sign in">{% trans 'Sign in' %}</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    {% smart_setting global_name="AUTHENTICATION_DISABLE_PASSWORD_RESET" as setting_disable_password_reset %}
+                    {% if not setting_disable_password_reset %}
+                        <div class="login-links">
+                            <a href="{% url 'authentication:password_reset_view' %}" data-i18n-key="Forgot your password?">{% trans 'Forgot your password?' %}</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
     </div>
+
+    <script>
+        (function () {
+            const cookieName = 'django_language';
+            const rtlLanguages = ['ar'];
+            const languageLabels = { en: 'EN', fr: 'FR', ar: 'AR' };
+            const translations = {
+                fr: {
+                    'Archive ready': 'Archive prête',
+                    'Availability': 'Disponibilité',
+                    'Choose your language, adjust the cover, and enter your account.': 'Choisissez votre langue, ajustez la couverture et connectez-vous.',
+                    'Clean workspace': 'Espace clair',
+                    'Cover': 'Couverture',
+                    'Forgot your password?': 'Mot de passe oublié ?',
+                    'Ink': 'Encre',
+                    'Manage documents with clarity': 'Gérez les documents avec clarté',
+                    'Ruby': 'Rubis',
+                    'Sage': 'Sauge',
+                    'Secure document workspace': 'Espace documentaire sécurisé',
+                    'Sign in': 'Connexion',
+                    'Access files, workflows, approvals, and archives from one calm workspace.': 'Accédez aux fichiers, processus, validations et archives depuis un espace calme.'
+                },
+                ar: {
+                    'Archive ready': 'جاهز للأرشفة',
+                    'Availability': 'التوفر',
+                    'Choose your language, adjust the cover, and enter your account.': 'اختر اللغة، غيّر الغلاف، ثم ادخل إلى حسابك.',
+                    'Clean workspace': 'مساحة عمل واضحة',
+                    'Cover': 'الغلاف',
+                    'Forgot your password?': 'هل نسيت كلمة المرور؟',
+                    'Ink': 'داكن',
+                    'Manage documents with clarity': 'إدارة الوثائق بوضوح',
+                    'Ruby': 'ياقوتي',
+                    'Sage': 'أخضر',
+                    'Secure document workspace': 'مساحة وثائق آمنة',
+                    'Sign in': 'تسجيل الدخول',
+                    'Access files, workflows, approvals, and archives from one calm workspace.': 'ادخل إلى الملفات وسير العمل والموافقات والأرشيف من مساحة هادئة واحدة.'
+                }
+            };
+
+            function getCookie(name) {
+                const value = '; ' + document.cookie;
+                const parts = value.split('; ' + name + '=');
+                if (parts.length === 2) {
+                    return parts.pop().split(';').shift();
+                }
+            }
+
+            function setLanguage(languageCode) {
+                const maxAge = 60 * 60 * 24 * 365;
+                document.cookie = cookieName + '=' + languageCode + '; path=/; max-age=' + maxAge + '; SameSite=Lax';
+                window.localStorage.setItem(cookieName, languageCode);
+                window.location.href = '/locales/set-language/?language=' + encodeURIComponent(languageCode) + '&next=' + encodeURIComponent(window.location.pathname + window.location.search + window.location.hash);
+            }
+
+            function applyLanguage(languageCode) {
+                const normalizedLanguage = languageCode.toLowerCase().split('-')[0];
+                const dictionary = translations[normalizedLanguage] || {};
+
+                document.documentElement.lang = normalizedLanguage;
+                document.documentElement.dir = rtlLanguages.indexOf(normalizedLanguage) === -1 ? 'ltr' : 'rtl';
+
+                document.querySelectorAll('[data-i18n-key]').forEach(function (element) {
+                    const key = element.getAttribute('data-i18n-key');
+                    if (dictionary[key]) {
+                        element.textContent = dictionary[key];
+                    }
+                });
+
+                document.querySelectorAll('.login-language-current').forEach(function (element) {
+                    element.textContent = languageLabels[normalizedLanguage] || normalizedLanguage.toUpperCase();
+                });
+
+                document.querySelectorAll('.login-language-option').forEach(function (button) {
+                    button.classList.toggle('is-active', button.getAttribute('data-language-code') === normalizedLanguage);
+                });
+            }
+
+            function applyCover(coverCode, keepCustomImage) {
+                const normalizedCover = ['sage', 'ink', 'ruby'].indexOf(coverCode) === -1 ? 'sage' : coverCode;
+                document.body.classList.remove('login-cover-sage', 'login-cover-ink', 'login-cover-ruby');
+                document.body.classList.add('login-cover-' + normalizedCover);
+                window.localStorage.setItem('edms_login_cover', normalizedCover);
+                if (!keepCustomImage) {
+                    window.localStorage.removeItem('edms_login_cover_image');
+                }
+                applyCustomCoverImage();
+
+                document.querySelectorAll('.login-cover-choice').forEach(function (button) {
+                    button.classList.toggle('is-active', button.getAttribute('data-cover-code') === normalizedCover);
+                });
+            }
+
+            function applyCustomCoverImage() {
+                const coverImage = window.localStorage.getItem('edms_login_cover_image');
+                const cover = document.querySelector('.login-cover');
+
+                if (!cover) {
+                    return;
+                }
+
+                if (coverImage) {
+                    cover.style.backgroundImage = 'linear-gradient(120deg, rgba(18, 30, 44, 0.72), rgba(36, 144, 239, 0.48)), url("' + coverImage + '")';
+                    cover.style.backgroundPosition = 'center';
+                    cover.style.backgroundSize = 'cover';
+                } else {
+                    cover.style.backgroundImage = '';
+                    cover.style.backgroundPosition = '';
+                    cover.style.backgroundSize = '';
+                }
+            }
+
+            function applyBranding() {
+                const logoData = window.localStorage.getItem('edms_brand_logo');
+                const brandTitle = window.localStorage.getItem('edms_brand_title') || '';
+
+                document.querySelectorAll('.login-brand').forEach(function (brand) {
+                    if (!brand.dataset.defaultBrandHtml) {
+                        brand.dataset.defaultBrandHtml = brand.innerHTML;
+                    }
+
+                    const label = brandTitle || 'EDMS';
+                    brand.innerHTML = '';
+
+                    if (logoData) {
+                        const image = document.createElement('img');
+                        image.alt = label;
+                        image.className = 'login-brand-logo-image';
+                        image.src = logoData;
+                        brand.appendChild(image);
+                    }
+
+                    const text = document.createElement('span');
+                    text.className = 'login-brand-title';
+                    text.textContent = label;
+                    brand.appendChild(text);
+                });
+            }
+
+            function applyFavicon() {
+                const faviconData = window.localStorage.getItem('edms_favicon');
+
+                document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"]').forEach(function (element) {
+                    element.remove();
+                });
+
+                if (!faviconData) {
+                    return;
+                }
+
+                const link = document.createElement('link');
+                link.rel = 'icon';
+                link.href = faviconData;
+                document.head.appendChild(link);
+            }
+
+            const language = getCookie(cookieName) || window.localStorage.getItem(cookieName) || document.documentElement.lang || 'en';
+            const cover = window.localStorage.getItem('edms_login_cover') || 'sage';
+
+            applyLanguage(language);
+            applyCover(cover, true);
+            applyCustomCoverImage();
+            applyBranding();
+            applyFavicon();
+
+            document.addEventListener('click', function (event) {
+                const languageToggle = event.target.closest('.login-language-toggle');
+                const languageOption = event.target.closest('.login-language-option');
+                const coverToggle = event.target.closest('.login-cover-button');
+                const coverOption = event.target.closest('.login-cover-choice');
+
+                if (languageToggle) {
+                    event.preventDefault();
+                    document.querySelector('.login-language').classList.toggle('is-open');
+                    document.querySelector('.login-cover-picker').classList.remove('is-open');
+                    return;
+                }
+
+                if (languageOption) {
+                    event.preventDefault();
+                    setLanguage(languageOption.getAttribute('data-language-code'));
+                    return;
+                }
+
+                if (coverToggle) {
+                    event.preventDefault();
+                    document.querySelector('.login-cover-picker').classList.toggle('is-open');
+                    document.querySelector('.login-language').classList.remove('is-open');
+                    return;
+                }
+
+                if (coverOption) {
+                    event.preventDefault();
+                    applyCover(coverOption.getAttribute('data-cover-code'));
+                    document.querySelector('.login-cover-picker').classList.remove('is-open');
+                    return;
+                }
+
+                document.querySelector('.login-language').classList.remove('is-open');
+                document.querySelector('.login-cover-picker').classList.remove('is-open');
+            });
+        }());
+    </script>
 {% endblock %}

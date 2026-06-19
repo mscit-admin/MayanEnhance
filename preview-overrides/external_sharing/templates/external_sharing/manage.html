@@ -1,0 +1,73 @@
+{% extends 'appearance/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans 'External sharing' %}{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .erp-share-page { padding: 6px 0 24px; }
+    .erp-share-header { align-items: center; display: flex; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+    .erp-share-header h1 { color: var(--erp-text, #1f272e); font-size: 24px; font-weight: 650; margin: 0 0 4px; }
+    .erp-share-header p { color: var(--erp-subtle, #687178); margin: 0; }
+    .erp-share-grid { display: grid; gap: 16px; grid-template-columns: minmax(280px, 380px) 1fr; }
+    .erp-share-card { background: var(--erp-surface, #fff); border: 1px solid var(--erp-border, #dfe3e8); border-radius: 8px; box-shadow: var(--erp-shadow, 0 1px 2px rgba(31,39,46,.08)); padding: 18px; }
+    .erp-share-card h2 { font-size: 16px; font-weight: 650; margin: 0 0 14px; }
+    .erp-share-card p { margin-bottom: 12px; }
+    .erp-share-row { border-top: 1px solid var(--erp-border, #dfe3e8); display: grid; gap: 12px; grid-template-columns: 1fr auto; padding: 14px 0; }
+    .erp-share-row:first-of-type { border-top: 0; padding-top: 0; }
+    .erp-share-row form { align-items: start; display: flex; gap: 8px; }
+    .erp-share-row input { margin: 6px 0; }
+    html[dir="rtl"] .erp-share-header, html[dir="rtl"] .erp-share-row { direction: rtl; text-align: right; }
+    @media (max-width: 900px) { .erp-share-grid, .erp-share-row { grid-template-columns: 1fr; } }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="erp-share-page">
+    <div class="erp-share-header">
+        <div>
+            <h1>{% trans 'External sharing' %}</h1>
+            <p>{% trans 'Create secure public links for this item.' %}</p>
+        </div>
+        <a class="btn btn-default" href="javascript:history.back()">{% trans 'Back' %}</a>
+    </div>
+
+    <div class="erp-share-grid">
+        <section class="erp-share-card">
+            <h2>{% trans 'New share' %}</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-primary" type="submit">{% trans 'Create link' %}</button>
+            </form>
+        </section>
+
+        <section class="erp-share-card">
+            <h2>{% trans 'Current links' %}</h2>
+            {% for share in shares %}
+                <div class="erp-share-row">
+                    <div>
+                        <strong>{{ share }}</strong>
+                        <input class="form-control" readonly value="{{ request.scheme }}://{{ request.get_host }}{{ share.get_absolute_url }}">
+                        <small>
+                            {{ share.get_permission_display }}
+                            {% if share.password_required %} · {% trans 'Password protected' %}{% endif %}
+                            {% if share.expires_at %} · {% trans 'Expires' %}: {{ share.expires_at }}{% endif %}
+                        </small>
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input name="share_id" type="hidden" value="{{ share.pk }}">
+                        <button class="btn btn-default" name="action" value="toggle" type="submit">
+                            {% if share.is_active %}{% trans 'Disable' %}{% else %}{% trans 'Enable' %}{% endif %}
+                        </button>
+                        <button class="btn btn-danger" name="action" value="delete" type="submit">{% trans 'Delete' %}</button>
+                    </form>
+                </div>
+            {% empty %}
+                <p class="text-muted">{% trans 'No external shares yet.' %}</p>
+            {% endfor %}
+        </section>
+    </div>
+</div>
+{% endblock %}
